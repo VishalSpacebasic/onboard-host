@@ -1,0 +1,23 @@
+version:0.1
+phases:
+ install: 
+ runtime-versions:
+ nodejs:18
+ commands:
+ -echo Getting startted
+ pre_build:
+ commands:
+ -echo Installing sourse NPM dependencies
+ -npm install --legacy-peer-deps
+ -aws --version
+ build:
+ commands:
+ -echo Build started on `date`
+ -npm run build
+ -echo build finished
+ post_build:
+ commands:
+ -echo Build completed on `date`
+ -ls
+ -pwd
+ -aws s3 sync build 
