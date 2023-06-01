@@ -1,6 +1,6 @@
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
 
-const API_BASE_URL = "http://api.staging.spacebasic.com/";
+const API_BASE_URL = "http://api.spacebasic.com/";
 
 const axiosInstance: AxiosInstance = axios.create({
   baseURL: API_BASE_URL,
