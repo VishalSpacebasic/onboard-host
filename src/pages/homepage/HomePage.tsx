@@ -59,12 +59,13 @@ function HomePage() {
       <Container
         maxWidth="sm"
         sx={{
-          mt:8,
+          mt:7,
           justifyContent: "center",
           alignItems: "center",
           display: "flex",
           bgcolor: "secondary",
           height: "80vh",
+          zIndex:999
         }}
       >
         <Scrollbars
@@ -125,10 +126,11 @@ function HomePage() {
       </Container>
       <Box
         sx={{
-          width: "100%",
+          // width: "100%",
           height: "60px",
           position: "fixed",
           bottom: "0px",
+          right:"0px",
           display: "flex",
           justifyContent: "end",
           padding: 2,
