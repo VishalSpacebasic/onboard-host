@@ -59,7 +59,7 @@ function HomePage() {
        <Scrollbars
           style={{
             width: "100%",
-            height: "80vh",
+            height: "87vh",
             display: "flex",
             flexDirection: "column",
           }}
