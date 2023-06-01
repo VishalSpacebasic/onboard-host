@@ -58,15 +58,23 @@ function LoginByAppId() {
     } else {
       verifyOtp(data).then(({ data }) => {
         console.log(data);
-        dispatch(setApplicationInfo(data));
-        setOppSent(false);
+        
         if (data?.accessToken) {
-          sessionStorage.setItem("accessToken", data?.accessToken);
-          sessionStorage.setItem("appId", data?.applicationNumber);
-          updateAccessToken(data?.accessToken);
-          dispatch(login({ isLoggedIn: true, accessToken: data?.accessToken }));
-          dispatch(setApplicationInfo(data?.applicationNumber));
-          navigate("onboard");
+          console.log(data);
+          dispatch(setApplicationInfo(data));
+          setOppSent(false);
+          if (data?.accessToken) {
+            sessionStorage.setItem("accessToken", data?.accessToken);
+            sessionStorage.setItem("appId", data?.applicationNumber);
+            updateAccessToken(data?.accessToken);
+            dispatch(
+              login({ isLoggedIn: true, accessToken: data?.accessToken })
+            );
+            dispatch(setApplicationInfo(data?.applicationNumber));
+            navigate("onboard");
+          }
+        } else {
+          toast("Invalid Otp", { type: "error" });
         }
       });
     }
