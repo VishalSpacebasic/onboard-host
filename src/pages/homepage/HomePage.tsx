@@ -59,6 +59,7 @@ function HomePage() {
       <Container
         maxWidth="sm"
         sx={{
+          mt:8,
           justifyContent: "center",
           alignItems: "center",
           display: "flex",
@@ -69,7 +70,7 @@ function HomePage() {
         <Scrollbars
           style={{
             width: "100%",
-            height: "75vh",
+            height: "80vh",
             display: "flex",
             flexDirection: "column",
           }}
