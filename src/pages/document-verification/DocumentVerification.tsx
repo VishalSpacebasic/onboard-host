@@ -33,6 +33,9 @@ function DocumentVerification({ next }: Props) {
     getKycLink().then(({ remarks }) => {
       setRemarks(remarks);
     });
+    return () => {
+      emitter.off("next-clicked", handleNextClick);
+    };
   }, []);
   const setFile = (file: any, id: any) => {
     setDocs({

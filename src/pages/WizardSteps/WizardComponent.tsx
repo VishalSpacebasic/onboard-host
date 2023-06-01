@@ -69,9 +69,11 @@ function WizardComponent() {
   }, []);
 
   const goToNextStep = async () => {
-    console.log("CLICKED", steps);
+    console.log("CLICKED", steps, activeStep, currentStepId);
     const currStep = activeStep;
-    setActiveStep(currStep + 1);
+    // setActiveStep(currStep + 1);
+    console.log(steps[currStep + 1].id);
+
     setcurrentStepId(steps[currStep + 1].id);
     dispatch(setWizardStep(currStep + 1));
     setcurrentStatus();
@@ -104,9 +106,11 @@ function WizardComponent() {
     dispatch(setCurrentStatus(result));
   }
   React.useEffect(() => {
+    console.log("THIS IS console log", currentStepId, steps);
+
     const index = steps.findIndex((item) => item.id === currentStepId);
     setActiveStep(index);
-    console.log(index);
+    console.log("THIS IS CURRENT INDEX", index);
   }, [currentStepId, steps]);
   return (
     <Box sx={{ width: "100%" }}>
@@ -128,7 +132,6 @@ function WizardComponent() {
           );
         })}
       </Stepper>
-
       {activeStep === steps.length ? (
         <>
           <Typography sx={{ mt: 2, mb: 1 }}>
@@ -142,7 +145,6 @@ function WizardComponent() {
       ) : (
         <>
           <Scrollbars
-           
             style={{
               width: "100%",
               height: "70vh",
@@ -189,14 +191,18 @@ function WizardComponent() {
             activeStep={activeStep}
             // sx={{ flexGrow: 1 }}
             nextButton={
-              <Button
-                size="small"
-                onClick={handleNext}
-                // disabled={activeStep === 5}
-              >
-                Next
-                <KeyboardArrowRight />
-              </Button>
+              currentStepId == 5 ? (
+                <><Button disabled><Typography>Click On Upload To Proceed</Typography></Button></>
+              ) : (
+                <Button
+                  size="small"
+                  onClick={handleNext}
+                  // disabled={activeStep === 5}
+                >
+                  Next
+                  <KeyboardArrowRight />
+                </Button>
+              )
             }
             backButton={
               <Button

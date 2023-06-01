@@ -11,14 +11,13 @@ import {
   uplaodFileForVerification,
 } from "../../../api/APIS/wizard-api";
 
-
 type Props = { docs; next; setDocs; selectFile };
 
 function UploaderComponent({ docs, next, setDocs, selectFile }: Props) {
   const [doc, setDoc] = useState<any>();
   const uploadFiles = () => {
-    if(remarks.document_verified==2){
-      toast("Your document is already verified ..!")
+    if (remarks.document_verified == 2) {
+      toast("Your document is already verified ..!");
       next();
       return;
     }
@@ -31,6 +30,7 @@ function UploaderComponent({ docs, next, setDocs, selectFile }: Props) {
         );
       }
     });
+    console.log("FILLLES", zip.files);
 
     zip.generateAsync({ type: "blob" }).then((content) => {
       const formData = new FormData();
@@ -134,7 +134,7 @@ function UploaderComponent({ docs, next, setDocs, selectFile }: Props) {
         console.error("Download error:", error);
       });
   };
-  const [remarks,setRemarks]=useState<any>({})
+  const [remarks, setRemarks] = useState<any>({});
   useEffect(() => {
     getKycLink().then((data) => {
       downloadAndExtractFiles(data.result);

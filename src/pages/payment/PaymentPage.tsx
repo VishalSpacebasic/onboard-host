@@ -1,4 +1,4 @@
-import { Dropzone, FileMosaic } from "@dropzone-ui/react";
+import { Dropzone, ExtFile, FileMosaic } from "@dropzone-ui/react";
 import TabPanel from "@mui/lab/TabPanel";
 import {
   Button,
@@ -19,7 +19,7 @@ import {
 import { Box, Container, Stack } from "@mui/system";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import { TabContext, TabList } from "@mui/lab";
+import { LoadingButton, TabContext, TabList } from "@mui/lab";
 import {
   getPastTransactions,
   getPaymentInfo,
@@ -66,6 +66,7 @@ type paymentType = {
 function PaymentPage({ next }: Props) {
   const [files, setFiles] = useState<any>([]);
   const [paymentStatus, setPaymentStatus] = useState();
+  const [dropZoneFiles, setDropZoneFiles] = useState<any>();
   const [paymentInfo, setPaymentInfo] = useState<paymentType>();
   const [checked, setChecked] = useState(false);
   const [allocationStatus, setAllocationStatus] = useState(2);
@@ -74,11 +75,14 @@ function PaymentPage({ next }: Props) {
   const [paymentModes, setPaymentModes] = useState<any>([]);
   const darkMode = useSelector((store) => store.theme.dark);
   const [transactions, setTransactions] = useState([]);
+  const [apiTrigger, CallApiTrigger] = useState<boolean>(true);
+  const [buttonLoading, setButtonLoading] = useState(false);
   const {
     control,
     handleSubmit,
     formState: { errors },
     setValue,
+    reset,
   } = useForm({
     defaultValues: {
       paidTransactionAmount: "",
@@ -94,7 +98,7 @@ function PaymentPage({ next }: Props) {
     getPaymentInfo().then(({ result }) => {
       setPaymentInfo(result);
     });
-  }, []);
+  }, [apiTrigger]);
   useEffect(() => {
     emitter.removeAllListeners("next-clicked");
     emitter.on("next-clicked", handleNextClicked);
@@ -111,8 +115,13 @@ function PaymentPage({ next }: Props) {
     fetchPaymentHistory();
   }, []);
   const handleNextClicked = () => {
-    if (paymentInfo.paymentStatus == "Paid") {
+    if (
+      paymentInfo.paymentStatus == "Paid" &&
+      paymentInfo.paymentVerified == 1
+    ) {
       next();
+    } else {
+      toast("Please make the whole payment and wait for approval");
     }
   };
   function loadScript(src) {
@@ -152,7 +161,7 @@ function PaymentPage({ next }: Props) {
       name: order.collegeName,
       description: `${order.receipt}`,
       order_id: order.id,
-      notes:order.notes,
+      notes: order.notes,
       async handler(response) {
         console.log(response);
         setPaymentStatus("SUCESSS");
@@ -202,23 +211,54 @@ function PaymentPage({ next }: Props) {
     }
     setFiles([...files, file]);
   };
-  const updateFiles = (incommingFiles) => {
-    setFiles(incommingFiles);
+  const updateFiles = (incommingFiles: ExtFile[]) => {
+    setDropZoneFiles(incommingFiles);
+    console.log("incommingFiles", incommingFiles);
+    const files: (File | undefined)[] = [];
+    incommingFiles.forEach((item) => {
+      console.log(item.file);
+      files.push(item.file);
+    });
+    console.log("this is files", files);
+
+    setFiles(files);
   };
   const removeFile = (id) => {
     setFiles(files.filter((x) => x.id !== id));
   };
   const onSubmit = (data) => {
+    setButtonLoading(true);
+    const paidAmount = parseInt(data.paidTransactionAmount, 10); // Convert to integer
+    const pendingAmount = parseInt(paymentInfo?.pendingAmount, 10);
+    console.log(data, paymentInfo, pendingAmount >= paidAmount);
+
+    if (pendingAmount < paidAmount) {
+      toast("Amount exceeds the total amount");
+      return;
+    }
+
     const zip = new JSZip();
     files.forEach((file) => {
-      zip.file(file);
+      zip.file(file.name, file);
     });
-    console.log(files);
+
+    console.log("files", zip.files);
     zip.generateAsync({ type: "blob" }).then((content) => {
       const formData = new FormData();
       formData.append("file", content, "files.zip");
       formData.append("data", JSON.stringify(data));
-      payOffline(formData);
+
+      payOffline(formData)
+        .then((data) => {
+          CallApiTrigger(!apiTrigger);
+          reset();
+          toast("Submitted successfully");
+          setButtonLoading(false);
+        })
+        .catch(() => {
+          toast("Submitted successfully", { type: "error" });
+          setButtonLoading(false);
+        });
     });
   };
   const fetchPaymentHistory = async () => {
@@ -349,7 +389,7 @@ function PaymentPage({ next }: Props) {
                 </Box>
                 {paymentInfo?.paymentType == "Offline" ? (
                   <TabPanel value="1">
-                    {paymentInfo?.paymentStatus != "Paid" ? (
+                    {paymentInfo?.paymentStatus == "Not Paid" ? (
                       <Button
                         disabled={
                           (!checked && paymentInfo?.paymentStatus != "Paid") ||
@@ -364,15 +404,25 @@ function PaymentPage({ next }: Props) {
                           ? "PAYMENT SUCCESSFULL"
                           : "Pay Now"}
                       </Button>
+                    ) : paymentInfo?.paymentStatus == "Pending" ? (
+                      <>
+                        <Button fullWidth disabled>
+                          Please wait for a moment your previous transaction is
+                          processing
+                        </Button>
+                      </>
                     ) : (
                       <Button fullWidth disabled>
-                        {" "}
                         {paymentInfo?.paymentType == "Offline"
                           ? "You cant pay online since you have made an offline payment"
                           : "Already paid You would be recieving a welcome shortly"}
                       </Button>
                     )}
                   </TabPanel>
+                ) : tab == 1 ? (
+                  <Button disabled>
+                    Please Wait While The Payment Is being Processed
+                  </Button>
                 ) : null}
                 <TabPanel value="2">
                   {" "}
@@ -381,11 +431,12 @@ function PaymentPage({ next }: Props) {
                       <Dropzone
                         accept=".jpg, .jpeg, .png, .gif, .doc, .docx, .pdf"
                         onChange={updateFiles}
+                        // onInput={updateFiles}
                         maxFiles={4}
-                        value={files}
+                        value={dropZoneFiles}
                         // maxFileSize={4000000}
                       >
-                        {files.map((file) => (
+                        {dropZoneFiles?.map((file) => (
                           <FileMosaic
                             key={file}
                             {...file}
@@ -464,8 +515,6 @@ function PaymentPage({ next }: Props) {
                                     </MenuItem>
                                   );
                                 })}
-                                <MenuItem value="mother">Mother</MenuItem>
-                                <MenuItem value="aunt">Guardian</MenuItem>
                               </Select>
                               {errors.modeOfPayment && (
                                 <FormHelperText error>
@@ -500,14 +549,16 @@ function PaymentPage({ next }: Props) {
                       </Stack>
                     </form>
 
-                    <Button
+                    <LoadingButton
+                      loading={buttonLoading}
+                      
                       size="large"
                       fullWidth
                       onClick={handleSubmit(onSubmit)}
                       // type="submit"
                     >
                       Submit
-                    </Button>
+                    </LoadingButton>
                   </Paper>
                 </TabPanel>
                 <TabPanel value="3">
