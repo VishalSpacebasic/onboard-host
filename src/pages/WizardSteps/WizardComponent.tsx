@@ -26,6 +26,7 @@ import PersonalInfo from "../personalinfo/PersonalInfo";
 import KycVerificationPage from "../Kyc verification/KycVerificationPage";
 import axiosInstance from "../../api/axios.instance";
 import { NavLink } from "react-router-dom";
+import Scrollbars from "react-custom-scrollbars-2";
 
 function WizardComponent() {
   const [activeStep, setActiveStep] = React.useState(0);
@@ -127,6 +128,7 @@ function WizardComponent() {
           );
         })}
       </Stepper>
+
       {activeStep === steps.length ? (
         <>
           <Typography sx={{ mt: 2, mb: 1 }}>
@@ -139,35 +141,46 @@ function WizardComponent() {
         </>
       ) : (
         <>
-          {/* TESTER COMPONENT */}
-          {/* {currentStepId + "  " + activeStep} */}
-          {/* {currentStepId === 1 ? <PaymentPage /> : null} */}
-          {currentStepId === 1 ? <PersonalInfo next={goToNextStep} /> : null}
-          {currentStepId === 2 ? (
-            <KycVerificationPage next={goToNextStep} />
-          ) : null}
-          {currentStepId === 3 ? <ParentInfo next={goToNextStep} /> : null}
-          {currentStepId === 4 ? <AcademicInfo next={goToNextStep} /> : null}
-          {currentStepId === 5 ? (
-            <DocumentVerification next={goToNextStep} />
-          ) : null}
-          {currentStepId === 6 ? (
-            <RoomPreferenceV2 next={goToNextStep} />
-          ) : null}
-          {currentStepId === 7 ? <PaymentPage next={goToNextStep} /> : null}
-          {currentStepId === 8 ? (
-            <Box
-              height="80vh"
-              display="flex"
-              justifyContent="center"
-              alignItems="center"
-            >
-              <Typography variant="h2" textAlign="center" color="grey">
-                Contract signing will be configured according to the university
-                policy.
-              </Typography>
-            </Box>
-          ) : null}
+          <Scrollbars
+           
+            style={{
+              width: "100%",
+              height: "70vh",
+              display: "flex",
+              flexDirection: "column",
+            }}
+            // autoHeight
+          >
+            {/* TESTER COMPONENT */}
+            {/* {currentStepId + "  " + activeStep} */}
+            {/* {currentStepId === 1 ? <PaymentPage /> : null} */}
+            {currentStepId === 1 ? <PersonalInfo next={goToNextStep} /> : null}
+            {currentStepId === 2 ? (
+              <KycVerificationPage next={goToNextStep} />
+            ) : null}
+            {currentStepId === 3 ? <ParentInfo next={goToNextStep} /> : null}
+            {currentStepId === 4 ? <AcademicInfo next={goToNextStep} /> : null}
+            {currentStepId === 5 ? (
+              <DocumentVerification next={goToNextStep} />
+            ) : null}
+            {currentStepId === 6 ? (
+              <RoomPreferenceV2 next={goToNextStep} />
+            ) : null}
+            {currentStepId === 7 ? <PaymentPage next={goToNextStep} /> : null}
+            {currentStepId === 8 ? (
+              <Box
+                height="80vh"
+                display="flex"
+                justifyContent="center"
+                alignItems="center"
+              >
+                <Typography variant="h2" textAlign="center" color="grey">
+                  Contract signing will be configured according to the
+                  university policy.
+                </Typography>
+              </Box>
+            ) : null}
+          </Scrollbars>
 
           <MobileStepper
             variant="progress"
