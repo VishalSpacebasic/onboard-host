@@ -10,17 +10,28 @@ import {
   getKycLink,
   uplaodFileForVerification,
 } from "../../../api/APIS/wizard-api";
+import { LoadingButton } from "@mui/lab";
 
-type Props = { docs; next; setDocs; selectFile };
+type Props = { docs; next; setDocs; selectFile; setTouched; touched };
 
-function UploaderComponent({ docs, next, setDocs, selectFile }: Props) {
+function UploaderComponent({
+  docs,
+  next,
+  setDocs,
+  selectFile,
+  touched,
+  setTouched,
+}: Props) {
   const [doc, setDoc] = useState<any>();
+  const [loading, setLoading] = useState(false);
+
   const uploadFiles = () => {
     if (remarks.document_verified == 2) {
       toast("Your document is already verified ..!");
       next();
       return;
     }
+    setLoading(true);
     const zip = new JSZip();
     Object.keys(docs).forEach((item) => {
       if (docs[item].name) {
@@ -36,17 +47,21 @@ function UploaderComponent({ docs, next, setDocs, selectFile }: Props) {
       const formData = new FormData();
       formData.append("file", content, "files.zip");
 
-      uplaodFileForVerification(formData)
-        .then((response) => {
-          toast("Documents uploaded successfully", { type: "success" });
-          next();
-          // Handle success response
-          // Call the uploadKYcInfo function or perform any other actions
-          // next();
-        })
-        .catch((error) => {
-          console.error("Upload error:", error);
-        });
+      if (touched) {
+        uplaodFileForVerification(formData)
+          .then((response) => {
+            toast("Documents uploaded successfully", { type: "success" });
+            next();
+            // Handle success response
+            // Call the uploadKYcInfo function or perform any other actions
+            // next();
+          })
+          .catch((error) => {
+            console.error("Upload error:", error);
+          });
+      } else {
+        next();
+      }
     });
   };
   async function decompressZipFile(url) {
@@ -199,9 +214,13 @@ function UploaderComponent({ docs, next, setDocs, selectFile }: Props) {
         </Scrollbars>
 
         {/* </Scrollbars> */}
-        <Button onClick={() => uploadFiles()} variant="contained">
-          Upload Files
-        </Button>
+        <LoadingButton
+          loading={loading}
+          onClick={() => uploadFiles()}
+          variant="contained"
+        >
+          {touched ? " Upload Files" : "continue"}
+        </LoadingButton>
       </Stack>
       {/* {docs?.map((file: File) => {
         return <Chip label={file.name}></Chip>;

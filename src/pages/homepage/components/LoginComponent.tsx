@@ -76,7 +76,7 @@ function LoginComponent({ setNewUser }) {
         {/* {collegeUrl} */}
       </Typography>
       <Box mt={3}>
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form autoComplete="off" onSubmit={handleSubmit(onSubmit)}>
           <Grid container spacing={3}>
             <Grid item xs={12} sm={6}>
               <Controller

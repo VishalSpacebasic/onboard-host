@@ -140,7 +140,7 @@ function RoomPreferenceV2({ next }) {
     });
 
     setRoomSelection(false);
-  }, [roomSelected]); 
+  }, [roomSelected]);
   useEffect(() => {
     emitter.removeAllListeners("next-clicked");
     emitter.on("next-clicked", handleNextClicked);

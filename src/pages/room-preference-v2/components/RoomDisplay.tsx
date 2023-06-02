@@ -9,7 +9,7 @@ type Props = { roomData: any; selectRoom: any; roomSelection: any };
 
 function RoomDisplay({ roomData, selectRoom, roomSelection }: Props) {
   return (
-    <Box>
+    <Box maxWidth={"100%"} overflow={"hidden"}>
       <Scrollbars
         style={{
           width: "100%",
@@ -19,20 +19,17 @@ function RoomDisplay({ roomData, selectRoom, roomSelection }: Props) {
         }}
         // autoHeight
       >
-        <Box maxHeight="80vh" maxWidth="lg">
-          {/* {JSON.stringify(roomData)} */}
-          <Box border={0}>
-            {roomData?.hostels?.map((hostel) => {
-              return (
-                <HostelDisplayer
-                  hostelName={hostel.hostelName}
-                  key={hostel.id}
-                  hostelData={hostel}
-                  selectRoom={selectRoom}
-                  roomSelection={roomSelection}
-                />
-              );
-            })}
+        <Box>
+          <Box maxHeight="80vh" maxWidth="lg" display="flex" flexWrap="wrap">
+            {roomData?.hostels?.map((hostel) => (
+              <HostelDisplayer
+                hostelName={hostel.hostelName}
+                key={hostel.id}
+                hostelData={hostel}
+                selectRoom={selectRoom}
+                roomSelection={roomSelection}
+              />
+            ))}
           </Box>
         </Box>
       </Scrollbars>

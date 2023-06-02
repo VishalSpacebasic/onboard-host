@@ -2,7 +2,7 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import BedroomChildIcon from "@mui/icons-material/BedroomChild";
 import { Divider, Icon, IconButton } from "@mui/material";
 import Grid from "@mui/material/Grid";
-import { Container, Stack } from "@mui/system";
+import { Box, Container, Stack } from "@mui/system";
 import { useEffect, useState } from "react";
 import Select from "react-select";
 import RoomDisplay from "./RoomDisplay";
@@ -30,6 +30,7 @@ function RoomSelectionComponent({
   const [selectedFloor, setSelectedFloor] = useState([]);
   const [selectedRoom, setSelectedRoom] = useState([]);
   useEffect(() => {
+    window.scrollTo(0, 0);
     setFormatted(convertFormat(roomTypeForRooms));
     setHostels(convertFormat(roomTypeForRooms).hostels);
     setBlocks(convertFormat(roomTypeForRooms).blocks);
@@ -168,7 +169,7 @@ function RoomSelectionComponent({
   }, [selectedBlock, selectedFloor, selectedHostel]);
 
   return (
-    <Container maxWidth="lg">
+    <Box maxWidth={"100%"}>
       <IconButton onClick={() => setRoomTypeForRooms(null)}>
         <ArrowBackIcon />
       </IconButton>
@@ -214,7 +215,7 @@ function RoomSelectionComponent({
         roomData={originalFormat}
         selectRoom={selectRoom}
       />
-    </Container>
+    </Box>
   );
 }
 

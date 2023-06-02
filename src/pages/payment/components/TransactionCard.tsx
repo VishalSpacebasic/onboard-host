@@ -13,7 +13,7 @@ function TransactionCard({ transaction }: Props) {
       <CardContent>
         <Typography>Payment Type: {transaction.paymentType}</Typography>
         <Typography>Paid Amount: {transaction.paidAmount}</Typography>
-        <Typography>Paid Date: {transaction.createdAt}</Typography>
+        <Typography>Paid Date: {transaction.paidDate}</Typography>
         <Typography>Payment Mode: {transaction.paymentMode}</Typography>
         <Typography>
           Payment Receipt Number: {transaction.paymentReceiptNumber}

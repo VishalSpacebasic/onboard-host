@@ -98,6 +98,7 @@ function PaymentPage({ next }: Props) {
     getPaymentInfo().then(({ result }) => {
       setPaymentInfo(result);
     });
+    fetchPaymentHistory();
   }, [apiTrigger]);
   useEffect(() => {
     emitter.removeAllListeners("next-clicked");
@@ -228,6 +229,11 @@ function PaymentPage({ next }: Props) {
   };
   const onSubmit = (data) => {
     setButtonLoading(true);
+    if (!files.length) {
+      toast("Please add a reciept", { type: "error" });
+      setButtonLoading(false);
+      return;
+    }
     const paidAmount = parseInt(data.paidTransactionAmount, 10); // Convert to integer
     const pendingAmount = parseInt(paymentInfo?.pendingAmount, 10);
     console.log(data, paymentInfo, pendingAmount >= paidAmount);
@@ -252,6 +258,7 @@ function PaymentPage({ next }: Props) {
         .then((data) => {
           CallApiTrigger(!apiTrigger);
           reset();
+          setDropZoneFiles([]);
           toast("Submitted successfully");
           setButtonLoading(false);
         })
@@ -350,15 +357,24 @@ function PaymentPage({ next }: Props) {
               </Grid>
             </Grid>
             <Divider />
-            <Grid container>
-              <Stack>
-                <Typography variant="body1">Payable Amount</Typography>
+            <Box container>
+              <Stack direction justifyContent={"space-between"}>
+                <Stack>
+                  <Typography variant="body1">Paid Amount</Typography>
 
-                <Typography variant="h4">
-                  {paymentInfo?.pendingAmount} INR
-                </Typography>
+                  <Typography variant="h4">
+                    {paymentInfo?.paidAmount} INR
+                  </Typography>
+                </Stack>
+                <Stack>
+                  <Typography variant="body1">Payable Amount</Typography>
+
+                  <Typography variant="h4">
+                    {paymentInfo?.pendingAmount} INR
+                  </Typography>
+                </Stack>
               </Stack>
-            </Grid>
+            </Box>
           </Paper>
           {paymentInfo?.paymentStatus == "Not Paid" ? (
             <>
@@ -426,140 +442,156 @@ function PaymentPage({ next }: Props) {
                 ) : null}
                 <TabPanel value="2">
                   {" "}
-                  <Paper elevation={4}>
-                    <div className="files">
-                      <Dropzone
-                        accept=".jpg, .jpeg, .png, .gif, .doc, .docx, .pdf"
-                        onChange={updateFiles}
-                        // onInput={updateFiles}
-                        maxFiles={4}
-                        value={dropZoneFiles}
-                        // maxFileSize={4000000}
-                      >
-                        {dropZoneFiles?.map((file) => (
-                          <FileMosaic
-                            key={file}
-                            {...file}
-                            onDelete={removeFile}
-                            preview
-                            info
-                            darkMode={darkMode}
-                          />
-                        ))}
-                      </Dropzone>
-                    </div>
-                    <form onSubmit={handleSubmit(onSubmit)}>
-                      <Stack spacing={1} gap={1}>
-                        <Controller
-                          name="paidTransactionAmount"
-                          control={control}
-                          rules={{
-                            required: "This field is required",
-                            pattern: {
-                              value: /^[0-9]*\.?[0-9]*$/,
-                              message: "Please enter a valid  amount",
-                            },
-                          }}
-                          render={({ field }) => (
-                            <TextField
-                              id="amount"
-                              label="Amount payed"
-                              fullWidth
-                              variant="filled"
-                              error={!!errors.paidTransactionAmount}
-                              helperText={errors.paidTransactionAmount?.message}
-                              {...field}
+                  {paymentInfo?.paymentStatus == "Pending" ? (
+                    <><Button disabled>Please wait while your transaction is being processed</Button></>
+                  ) : (
+                    <Paper elevation={4}>
+                      <div className="files">
+                        <Dropzone
+                          accept=".jpg, .jpeg, .png, .gif, .doc, .docx, .pdf"
+                          onChange={updateFiles}
+                          // onInput={updateFiles}
+                          maxFiles={4}
+                          value={dropZoneFiles}
+                          // maxFileSize={4000000}
+                        >
+                          {dropZoneFiles?.map((file) => (
+                            <FileMosaic
+                              key={file}
+                              {...file}
+                              onDelete={removeFile}
+                              preview
+                              info
+                              darkMode={darkMode}
                             />
-                          )}
-                        />
-                        <Controller
-                          name="trnRefNumber"
-                          control={control}
-                          rules={{
-                            required: "This field is required",
-                          }}
-                          render={({ field }) => (
-                            <TextField
-                              id="amount"
-                              label="Transaction Number"
-                              fullWidth
-                              variant="filled"
-                              error={!!errors.trnRefNumber}
-                              helperText={errors.trnRefNumber?.message}
-                              {...field}
-                            />
-                          )}
-                        />
-                        <Controller
-                          name="modeOfPayment"
-                          control={control}
-                          rules={{ required: true }}
-                          render={({ field }) => (
-                            <FormControl fullWidth variant="outlined">
-                              <InputLabel id="demo-simple-select-label">
-                                Payment Mode
-                              </InputLabel>
-                              <Select
-                                labelId="guardian-relation-label"
-                                id="guardian-relation"
-                                label="Mode of payment"
+                          ))}
+                        </Dropzone>
+                      </div>
+                      <form autoComplete="off" onSubmit={handleSubmit(onSubmit)}>
+                        <Stack spacing={1} gap={1}>
+                          <Controller
+                            name="paidTransactionAmount"
+                            control={control}
+                            rules={{
+                              required: "This field is required",
+                              pattern: {
+                                value: /^[0-9]*\.?[0-9]*$/,
+                                message: "Please enter a valid  amount",
+                              },
+                            }}
+                            render={({ field }) => (
+                              <TextField
+                                id="amount"
+                                label="Amount paid"
+                                fullWidth
                                 variant="filled"
-                                placeholder="Please select relation"
-                                error={!!errors.modeOfPayment}
+                                error={!!errors.paidTransactionAmount}
+                                helperText={
+                                  errors.paidTransactionAmount?.message
+                                }
                                 {...field}
-                              >
-                                {paymentModes.map((item) => {
-                                  return (
-                                    <MenuItem key={item} value={item}>
-                                      {item}
-                                    </MenuItem>
-                                  );
-                                })}
-                              </Select>
-                              {errors.modeOfPayment && (
-                                <FormHelperText error>
-                                  Mode of payment is required
-                                </FormHelperText>
-                              )}
-                            </FormControl>
-                          )}
-                        />
-                        <Controller
-                          name="paidDate"
-                          control={control}
-                          rules={{ required: true }}
-                          render={({ field }) => (
-                            <TextField
-                              id="paidDate"
-                              label="Date of payment"
-                              type="date"
-                              variant="filled"
-                              fullWidth
-                              InputLabelProps={{
-                                shrink: true,
-                              }}
-                              error={!!errors.paidDate}
-                              helperText={
-                                errors.paidDate && "Date of payment is required"
-                              }
-                              {...field}
-                            />
-                          )}
-                        />
-                      </Stack>
-                    </form>
+                              />
+                            )}
+                          />
+                          <Controller
+                            name="trnRefNumber"
+                            control={control}
+                            rules={{
+                              required: "This field is required",
+                            }}
+                            render={({ field }) => (
+                              <TextField
+                                id="amount"
+                                label="Transaction Number"
+                                fullWidth
+                                variant="filled"
+                                error={!!errors.trnRefNumber}
+                                helperText={errors.trnRefNumber?.message}
+                                {...field}
+                              />
+                            )}
+                          />
+                          <Controller
+                            name="modeOfPayment"
+                            control={control}
+                            rules={{ required: true }}
+                            render={({ field }) => (
+                              <FormControl fullWidth variant="outlined">
+                                <InputLabel id="demo-simple-select-label">
+                                  Payment Mode
+                                </InputLabel>
+                                <Select
+                                  labelId="guardian-relation-label"
+                                  id="guardian-relation"
+                                  label="Mode of payment"
+                                  variant="filled"
+                                  placeholder="Please select relation"
+                                  error={!!errors.modeOfPayment}
+                                  {...field}
+                                >
+                                  {paymentModes.map((item) => {
+                                    return (
+                                      <MenuItem key={item} value={item}>
+                                        {item}
+                                      </MenuItem>
+                                    );
+                                  })}
+                                </Select>
+                                {errors.modeOfPayment && (
+                                  <FormHelperText error>
+                                    Mode of payment is required
+                                  </FormHelperText>
+                                )}
+                              </FormControl>
+                            )}
+                          />
+                          <Controller
+                            name="paidDate"
+                            control={control}
+                            rules={{ required: true }}
+                            render={({ field }) => (
+                              <TextField
+                                id="paidDate"
+                                label="Date of payment"
+                                type="date"
+                                variant="filled"
+                                fullWidth
+                                InputLabelProps={{
+                                  shrink: true,
+                                }}
+                                inputProps={{
+                                  min: new Date(
+                                    new Date().setMonth(
+                                      new Date().getMonth() - 3
+                                    )
+                                  )
+                                    .toISOString()
+                                    .split("T")[0],
+                                  max: new Date().toISOString().split("T")[0], // Replace with your desired maximum date
+                                }}
+                                error={!!errors.paidDate}
+                                helperText={
+                                  errors.paidDate &&
+                                  "Date of payment is required"
+                                }
+                                {...field}
+                              />
+                            )}
+                          />
+                        </Stack>
+                      </form>
 
-                    <LoadingButton
-                      loading={buttonLoading}
-                      
-                      size="large"
-                      fullWidth
-                      onClick={handleSubmit(onSubmit)}
-                      // type="submit"
-                    >
-                      Submit
-                    </LoadingButton>
-                  </Paper>
+                      <LoadingButton
+                        loading={buttonLoading}
+                        size="large"
+                        fullWidth
+                        onClick={handleSubmit(onSubmit)}
+                        // type="submit"
+                      >
+                        Submit
+                      </LoadingButton>
+                    </Paper>
+                  )}
                 </TabPanel>
                 <TabPanel value="3">
                   {transactions.map((item) => {

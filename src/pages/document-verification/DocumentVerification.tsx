@@ -17,6 +17,7 @@ function DocumentVerification({ next }: Props) {
   const [verificationArray, setVerificationArray] = useState<any>([]);
   const [remarks, setRemarks] = useState<any>({});
   const [docs, setDocs] = useState<any>({});
+  const [touched, setTouched] = useState<boolean>(false);
   const handleNextClick = () => {
     console.log("handleNextClick");
 
@@ -37,11 +38,14 @@ function DocumentVerification({ next }: Props) {
       emitter.off("next-clicked", handleNextClick);
     };
   }, []);
-  const setFile = (file: any, id: any) => {
+  const setFile = (file: any, id: any, added?: boolean) => {
     setDocs({
       ...docs,
       [id]: file,
     });
+    if (added) {
+      setTouched(true);
+    }
   };
 
   return (
@@ -72,7 +76,7 @@ function DocumentVerification({ next }: Props) {
                       description={item.description}
                       title={item.title}
                       downloadLink={item.templateLink}
-                      selectFile={setFile}
+                      selectFile={(file, id) => setFile(file, id, true)}
                     />
                   );
                 })}
@@ -81,6 +85,8 @@ function DocumentVerification({ next }: Props) {
           </Grid>
           <Grid item sm={5}>
             <UploaderComponent
+              touched={touched}
+              setTouched={setTouched}
               selectFile={setFile}
               setDocs={setDocs}
               next={next}

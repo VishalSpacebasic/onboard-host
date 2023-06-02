@@ -83,7 +83,7 @@ function PersonalInfoForm({ next }: any) {
   }, []);
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form autoComplete="off" onSubmit={handleSubmit(onSubmit)}>
       <FormControl disabled>
         <fieldset disabled={currentStatus !== 2} style={{ border: 0 }}>
           <Grid justifyContent="space-between" spacing={3} container>

@@ -25,11 +25,12 @@ import RoomPreferenceV2 from "../room-preference-v2/RoomPreferenceV2";
 import PersonalInfo from "../personalinfo/PersonalInfo";
 import KycVerificationPage from "../Kyc verification/KycVerificationPage";
 import axiosInstance from "../../api/axios.instance";
-import { NavLink } from "react-router-dom";
+import { NavLink, useParams } from "react-router-dom";
 import Scrollbars from "react-custom-scrollbars-2";
 
 function WizardComponent() {
   const [activeStep, setActiveStep] = React.useState(0);
+  const { collegeUrl } = useParams();
   const [currentStepId, setcurrentStepId] = React.useState<any>(1);
   const [skipped, setSkipped] = React.useState(new Set<number>());
   const [steps, setsteps] = React.useState<any>([]);
@@ -49,16 +50,28 @@ function WizardComponent() {
     //   // setActiveStep(data.applicationStatus);
     //   // setcurrentStepId(data.applicationStatus);
     // });
-    const result = [
-      { title: "Personal Info", id: 1, show: true },
-      { title: "Kyc Verification", id: 2, show: false },
-      { title: "Parent Info", id: 3, show: false },
-      { title: "Academic Info", id: 4, show: false },
-      { title: "Document Verification", id: 5, show: true },
-      { title: "Room Preference", id: 6, show: true },
-      { title: "Fee Payment", id: 7, show: true },
-      { title: "Sign Contract", id: 8, show: true },
-    ];
+    const result =
+      collegeUrl == "taylors"
+        ? [
+            { title: "Personal Info", id: 1, show: true },
+            { title: "Kyc Verification", id: 2, show: false },
+            { title: "Parent Info", id: 3, show: false },
+            { title: "Academic Info", id: 4, show: false },
+            { title: "Document Verification", id: 5, show: true },
+            { title: "Room Preference", id: 6, show: true },
+            { title: "Fee Payment", id: 7, show: true },
+            { title: "Sign Contract", id: 8, show: true },
+          ]
+        : [
+            { title: "Personal Info", id: 1, show: true },
+            { title: "Kyc Verification", id: 2, show: false },
+            { title: "Parent Info", id: 3, show: true },
+            { title: "Academic Info", id: 4, show: true },
+            { title: "Document Verification", id: 5, show: true },
+            { title: "Room Preference", id: 6, show: true },
+            { title: "Fee Payment", id: 7, show: true },
+            { title: "Sign Contract", id: 8, show: true },
+          ];
     setsteps(result.filter((item) => item.show));
     initailizeCurentStep();
     setcurrentStatus();
@@ -192,7 +205,11 @@ function WizardComponent() {
             // sx={{ flexGrow: 1 }}
             nextButton={
               currentStepId == 5 ? (
-                <><Button disabled><Typography>Click On Upload To Proceed</Typography></Button></>
+                <>
+                  <Button disabled>
+                    <Typography>Click On Upload To Proceed</Typography>
+                  </Button>
+                </>
               ) : (
                 <Button
                   size="small"

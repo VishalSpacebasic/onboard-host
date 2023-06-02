@@ -64,7 +64,7 @@ function ParentInfoForm({ next }: Props) {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form autoComplete="off" onSubmit={handleSubmit(onSubmit)}>
       <fieldset style={{ border: "none" }} disabled={currentStatus !== 2}>
         <Grid mt={1} justifyContent="space-between" spacing={3} container>
           <Grid item xs={12} sm={6} md={6} lg={6}>
@@ -117,7 +117,7 @@ function ParentInfoForm({ next }: Props) {
               control={control}
               rules={{ required: true }}
               render={({ field }) => (
-                <FormControl fullWidth variant="outlined">
+                <FormControl  fullWidth variant="outlined">
                   <InputLabel id="demo-simple-select-label">
                     Relation
                   </InputLabel>

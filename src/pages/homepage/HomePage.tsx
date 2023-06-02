@@ -56,31 +56,30 @@ function HomePage() {
   }, [collegeUrl, dispatch, navigate]);
   return (
     <Box>
-       <Scrollbars
-          style={{
-            width: "100%",
-            height: "87vh",
-            display: "flex",
-            flexDirection: "column",
-          }}
-          // autoHeight
-        >
-      <Container
-        maxWidth="sm"
-        sx={{
-          mt:7,
-          justifyContent: "center",
-          alignItems: "center",
+      <Scrollbars
+        style={{
+          width: "100%",
+          height: "87vh",
           display: "flex",
-          bgcolor: "secondary",
-          height: "80vh",
-          zIndex:999
+          flexDirection: "column",
         }}
+        // autoHeight
       >
-       
+        <Container
+          maxWidth="sm"
+          sx={{
+            mt: 7,
+            justifyContent: "center",
+            alignItems: "center",
+            display: "flex",
+            bgcolor: "secondary",
+            height: "80vh",
+            zIndex: 999,
+          }}
+        >
           <Stack spacing={5} justifyContent="center" alignItems="center">
             <Box>
-            <img width="100px" src={logo} />
+              <img width="100px" src={logo} />
             </Box>
             <Paper
               sx={{
@@ -123,15 +122,15 @@ function HomePage() {
             </Paper>
           </Stack>
           {/* </Box> */}
-      </Container>
-        </Scrollbars>
+        </Container>
+      </Scrollbars>
       <Box
         sx={{
           // width: "100%",
           height: "60px",
           position: "fixed",
           bottom: "0px",
-          right:"0px",
+          right: "0px",
           display: "flex",
           justifyContent: "end",
           padding: 2,
