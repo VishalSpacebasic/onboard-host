@@ -78,7 +78,7 @@ function HomePage() {
             zIndex: 999,
           }}
         >
-          <Stack spacing={5} justifyContent="center" alignItems="center">
+          <Stack spacing={2} justifyContent="center" alignItems="center">
             <Box>
               <img width="100px" src={logo} />
             </Box>
