@@ -132,7 +132,7 @@ function RoomPreferenceV2({ next }) {
         getAvailableRooms().then(({ result }) => {
           console.log("API RESPONSEROOM", result);
           setRoomData(result.combinations);
-          setRoomSelection(result.configurations.typeOfSelection != "room");
+          setRoomSelection(result.configurations.typeOfSelection == "Room");
         });
       } else {
         getPaymentInfo().then(({ result }) => {
@@ -155,7 +155,7 @@ function RoomPreferenceV2({ next }) {
   const addRoomTypeToPreference = (subRoom: any) => {
     console.log(subRoom);
     const alreadyExist = roomPreference.includes(subRoom);
-    if (!alreadyExist && roomPreference.length < 3) {
+    if (!alreadyExist && roomPreference.length <1) {
       setRoomPreference([...roomPreference, subRoom]);
     } else if (!alreadyExist && roomPreference.length === 3) {
       toast("You cannot add more than three preferences", { type: "error" });

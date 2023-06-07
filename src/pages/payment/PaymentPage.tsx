@@ -284,7 +284,7 @@ function PaymentPage({ next }: Props) {
         <Grid item sm={8}>
           <Paper elevation={3} sx={{ padding: "16px" }}>
             <Grid container spacing={2}>
-              {paymentInfo.hostelName ? (
+              {paymentInfo?.hostelName ? (
                 <>
                   <Grid item xs={12}>
                     <Typography variant="h5" component="div" gutterBottom>
@@ -366,7 +366,7 @@ function PaymentPage({ next }: Props) {
               </Grid>
             </Grid>
             <Divider />
-            <Box container>
+            <Box>
               <Stack direction justifyContent={"space-between"}>
                 <Stack>
                   <Typography variant="body1">Paid Amount</Typography>
