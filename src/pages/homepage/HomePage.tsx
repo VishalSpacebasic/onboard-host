@@ -82,6 +82,10 @@ function HomePage() {
             <Box>
               <img width="100px" src={logo} />
             </Box>
+            <Typography variant="h6" textAlign={"center"}>
+              {" "}
+              {collegeContext?.collegeName} Student Housing Registration Portal
+            </Typography>
            
             <Paper
               sx={{
@@ -96,10 +100,7 @@ function HomePage() {
               }}
               elevation={5}
             >
-               <Typography textAlign={"center"}>
-              {" "}
-              {collegeContext?.collegeName} Student Housing Registration Portal
-            </Typography>
+          
               <Box
                 sx={{
                   position: "relative",

@@ -216,6 +216,7 @@ function WizardComponent() {
                   size="small"
                   onClick={handleNext}
                   // disabled={activeStep === 5}
+                  variant="contained"
                 >
                   Next
                   <KeyboardArrowRight />
@@ -227,6 +228,7 @@ function WizardComponent() {
                 size="small"
                 onClick={handleBack}
                 // disabled={activeStep === 0 || activeStep === 6}
+                variant="contained"
               >
                 <KeyboardArrowLeft />
                 Back
