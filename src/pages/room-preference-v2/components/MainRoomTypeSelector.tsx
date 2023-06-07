@@ -76,19 +76,19 @@ function MainRoomTypeSelector({
               key={room.roomTypeName}
               size="small"
               sx={{
-                minHeight: 60,
+                minHeight: 60
               }}
               clickable
               onClick={() => setMainRoomName(room?.roomTypeName)}
               color={room.roomTypeName === mainRoomName ? "primary" : "default"}
               label={
                 <Stack style={{ maxWidth: 300 }}>
-                  <Typography style={{ fontSize: 10 }}>
+                  <Typography fontWeight={"600"} style={{ fontSize: 13 }}>
                     {room?.roomTypeName}
                   </Typography>
                   <Divider />
                   <Typography>
-                    <Typography variant="h3" style={{ fontSize: 12 }}>
+                    <Typography variant="h2" style={{ fontSize: 12 }}>
                       Starts At
                     </Typography>
                     {room?.basePrice}

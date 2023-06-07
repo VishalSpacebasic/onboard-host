@@ -118,16 +118,18 @@ function PaymentPage({ next }: Props) {
   const handleNextClicked = () => {
     if (
       paymentInfo.paymentStatus == "Paid" &&
-      paymentInfo.paymentVerified == 1
+      paymentInfo.paymentVerified == 1 
     ) {
       next();
-    } else {
-      toast("Please make the whole payment and wait for approval");
-      return;
+      return 0;
+    } 
+    if(paymentInfo.paymentType=="Offline" && paymentInfo?.paymentStatus=="Paid"){
+      next()
     }
     if (allocationStatus == 3) {
-      toast("Please wait till the hostel team allocates a room for you");
-      return;
+      // toast("Please wait till the hostel team allocates a room for you");
+      // return;
+      next();
     }
   };
   function loadScript(src) {
@@ -169,6 +171,7 @@ function PaymentPage({ next }: Props) {
       order_id: order.id,
       notes: order.notes,
       async handler(response) {
+        CallApiTrigger(!apiTrigger);
         console.log(response);
         setPaymentStatus("SUCESSS");
         setPaymentInfo({ ...paymentInfo, paymentStatus: "Paid" });
@@ -410,7 +413,6 @@ function PaymentPage({ next }: Props) {
                     <Tab label="ONLINE" value="1" />
                     <Tab label="OFFLINE" value="2" />
                     <Tab label="HISTORY" value="3" />
-                    
                   </TabList>
                 </Box>
                 {paymentInfo?.paymentType == "Offline" ? (
@@ -446,8 +448,10 @@ function PaymentPage({ next }: Props) {
                     )}
                   </TabPanel>
                 ) : tab == 1 ? (
-                  <Button disabled>
-                    Please Wait While The Payment Is being Processed
+                  <Button fullWidth disabled>
+                    {paymentInfo?.paymentStatus == "Paid"
+                      ? "Payment successfull"
+                      : " Please Wait While The Payment Is being Processed"}
                   </Button>
                 ) : null}
                 <TabPanel value="2">
