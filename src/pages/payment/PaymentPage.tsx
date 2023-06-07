@@ -123,6 +123,11 @@ function PaymentPage({ next }: Props) {
       next();
     } else {
       toast("Please make the whole payment and wait for approval");
+      return;
+    }
+    if (allocationStatus == 3) {
+      toast("Please wait till the hostel team allocates a room for you");
+      return;
     }
   };
   function loadScript(src) {
@@ -279,33 +284,37 @@ function PaymentPage({ next }: Props) {
         <Grid item sm={8}>
           <Paper elevation={3} sx={{ padding: "16px" }}>
             <Grid container spacing={2}>
-              <Grid item xs={12}>
-                <Typography variant="h5" component="div" gutterBottom>
-                  Room Details
-                </Typography>
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <Typography variant="body1" gutterBottom>
-                  Hostel Name: {paymentInfo?.hostelName}
-                </Typography>
-                <Typography variant="body1" gutterBottom>
-                  Block Name: {paymentInfo?.blockName}
-                </Typography>
-                <Typography variant="body1" gutterBottom>
-                  Floor Name: {paymentInfo?.floorName}
-                </Typography>
-                <Typography variant="body1" gutterBottom>
-                  Room Name: {paymentInfo?.roomName}
-                </Typography>
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <Typography variant="body1" gutterBottom>
-                  Room Type: {paymentInfo?.roomType}
-                </Typography>
-                <Typography variant="body1" gutterBottom>
-                  Attributes: {paymentInfo?.attributes?.join(", ")}
-                </Typography>
-              </Grid>
+              {paymentInfo.hostelName ? (
+                <>
+                  <Grid item xs={12}>
+                    <Typography variant="h5" component="div" gutterBottom>
+                      Room Details
+                    </Typography>
+                  </Grid>{" "}
+                  <Grid item xs={12} sm={6}>
+                    <Typography variant="body1" gutterBottom>
+                      Hostel Name: {paymentInfo?.hostelName}
+                    </Typography>
+                    <Typography variant="body1" gutterBottom>
+                      Block Name: {paymentInfo?.blockName}
+                    </Typography>
+                    <Typography variant="body1" gutterBottom>
+                      Floor Name: {paymentInfo?.floorName}
+                    </Typography>
+                    <Typography variant="body1" gutterBottom>
+                      Room Name: {paymentInfo?.roomName}
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <Typography variant="body1" gutterBottom>
+                      Room Type: {paymentInfo?.roomType}
+                    </Typography>
+                    <Typography variant="body1" gutterBottom>
+                      Attributes: {paymentInfo?.attributes?.join(", ")}
+                    </Typography>
+                  </Grid>
+                </>
+              ) : null}
               <Divider />
               <Grid item xs={12}>
                 <Typography variant="h5" component="div" gutterBottom>
@@ -401,6 +410,7 @@ function PaymentPage({ next }: Props) {
                     <Tab label="ONLINE" value="1" />
                     <Tab label="OFFLINE" value="2" />
                     <Tab label="HISTORY" value="3" />
+                    
                   </TabList>
                 </Box>
                 {paymentInfo?.paymentType == "Offline" ? (
@@ -443,7 +453,11 @@ function PaymentPage({ next }: Props) {
                 <TabPanel value="2">
                   {" "}
                   {paymentInfo?.paymentStatus == "Pending" ? (
-                    <><Button disabled>Please wait while your transaction is being processed</Button></>
+                    <>
+                      <Button disabled>
+                        Please wait while your transaction is being processed
+                      </Button>
+                    </>
                   ) : (
                     <Paper elevation={4}>
                       <div className="files">
@@ -467,7 +481,10 @@ function PaymentPage({ next }: Props) {
                           ))}
                         </Dropzone>
                       </div>
-                      <form autoComplete="off" onSubmit={handleSubmit(onSubmit)}>
+                      <form
+                        autoComplete="off"
+                        onSubmit={handleSubmit(onSubmit)}
+                      >
                         <Stack spacing={1} gap={1}>
                           <Controller
                             name="paidTransactionAmount"
@@ -618,7 +635,22 @@ function PaymentPage({ next }: Props) {
           </Grid>
         ) : null}
         {paymentInfo?.paymentStatus == "Paid" &&
-        paymentInfo.paymentVerified == 1 ? (
+        paymentInfo.paymentVerified == 1 &&
+        allocationStatus != 3 ? (
+          <Grid item sm={4}>
+            <Typography
+              sx={{ marginX: "auto", marginY: 20, opacity: 0.4 }}
+              textAlign="center"
+              variant="h5"
+            >
+              {" "}
+              Payment Processed! Please proceed to the next step and sign the
+              contract.
+            </Typography>
+          </Grid>
+        ) : paymentInfo?.paymentStatus == "Paid" &&
+          paymentInfo.paymentVerified == 1 &&
+          allocationStatus == 3 ? (
           <Grid item sm={4}>
             <Typography
               sx={{ marginX: "auto", marginY: 20, opacity: 0.4 }}

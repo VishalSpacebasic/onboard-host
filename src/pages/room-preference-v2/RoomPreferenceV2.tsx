@@ -120,7 +120,9 @@ function RoomPreferenceV2({ next }) {
       // next();
       toast("Please wait for approval from the hostel team");
     } else if (roomPrefStat.allotmentStatus == 3) {
-      toast("please wait till the room is assigned to you");
+      // toast("please wait till the room is assigned to you");
+      next();
+      
     }
   };
   useEffect(() => {
@@ -383,8 +385,8 @@ function RoomPreferenceV2({ next }) {
               justifyContent="center"
               alignItems="center"
             >
-              <Typography variant="h2" textAlign="center" color="grey">
-                Please wait till you are assigned a room.
+              <Typography variant="h3" textAlign="center" color="grey">
+                Your preference has been captured please make the payment and await allotment.
               </Typography>
             </Box>
           )}
