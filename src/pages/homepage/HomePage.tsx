@@ -5,6 +5,7 @@ import {
   IconButton,
   Paper,
   Stack,
+  Typography,
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -81,6 +82,7 @@ function HomePage() {
             <Box>
               <img width="100px" src={logo} />
             </Box>
+           
             <Paper
               sx={{
                 pl: "30px",
@@ -94,6 +96,10 @@ function HomePage() {
               }}
               elevation={5}
             >
+               <Typography textAlign={"center"}>
+              {" "}
+              {collegeContext?.collegeName} Student Housing Registration Portal
+            </Typography>
               <Box
                 sx={{
                   position: "relative",

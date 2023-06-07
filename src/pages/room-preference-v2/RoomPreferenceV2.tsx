@@ -122,7 +122,6 @@ function RoomPreferenceV2({ next }) {
     } else if (roomPrefStat.allotmentStatus == 3) {
       // toast("please wait till the room is assigned to you");
       next();
-      
     }
   };
   useEffect(() => {
@@ -155,7 +154,7 @@ function RoomPreferenceV2({ next }) {
   const addRoomTypeToPreference = (subRoom: any) => {
     console.log(subRoom);
     const alreadyExist = roomPreference.includes(subRoom);
-    if (!alreadyExist && roomPreference.length <1) {
+    if (!alreadyExist && roomPreference.length < 1) {
       setRoomPreference([...roomPreference, subRoom]);
     } else if (!alreadyExist && roomPreference.length === 3) {
       toast("You cannot add more than three preferences", { type: "error" });
@@ -317,66 +316,87 @@ function RoomPreferenceV2({ next }) {
                     </Typography>
                   </Stack>
                 ) : null}
-                {roomPrefStat.allotmentStatus == 3
-                  ? "Preference captured awaiting warden to assign a room"
-                  : null}
-              </Typography>
-              <Paper sx={{ p: 2 }} elevation={4}>
-                <Grid container rowGap={3}>
-                  <Grid item sm={6}>
-                    <Typography variant="subtitle1" className={classes.label}>
-                      Room:
-                    </Typography>
-                    <Typography variant="h5">{roomInfo?.roomName}</Typography>
-                  </Grid>
-                  <Grid item sm={6}>
-                    <Typography variant="subtitle1" className={classes.label}>
-                      Hostel Name:
-                    </Typography>
-                    <Typography variant="h5">{roomInfo?.hostelName}</Typography>
-                  </Grid>
-                  <Grid item sm={6}>
-                    <Typography variant="subtitle1" className={classes.label}>
-                      Block Name:
-                    </Typography>
-                    <Typography variant="h5">{roomInfo?.blockName}</Typography>
-                  </Grid>
-                  <Grid item sm={6}>
-                    <Typography variant="subtitle1" className={classes.label}>
-                      Floor Name:
-                    </Typography>
-                    <Typography variant="h5">{roomInfo?.floorName}</Typography>
-                  </Grid>
-
-                  {/* <div className="room-attributes"> */}
-                  <Grid item sm={12}>
-                    <Typography variant="body1" className={classes.label}>
-                      Room Type:
-                    </Typography>
-                    <Typography variant="h5">{roomInfo?.roomType}</Typography>
-                  </Grid>
-                  {roomInfo?.attributes?.length ? (
-                    <Grid item sm={12}>
-                      <Typography variant="body1" className={classes.label}>
-                        Amenities :
+                {roomPrefStat.allotmentStatus == 3 ? (
+                  <>
+                    {" "}
+                    <Box
+                      height="80vh"
+                      display="flex"
+                      justifyContent="center"
+                      alignItems="center"
+                    >
+                      <Typography variant="h3" textAlign="center" color="grey">
+                        Your preference has been captured please make the
+                        payment and await allotment.
                       </Typography>
-                      <Typography variant="body1">
-                        <Stack direction spacing={2} gap={2}>
-                          {roomInfo?.attributes?.map((item) => {
-                            return (
-                              <Chip
-                                variant="outlined"
-                                color="primary"
-                                label={item}
-                              />
-                            );
-                          })}
-                        </Stack>
+                    </Box>
+                  </>
+                ) : null}
+              </Typography>
+              {roomPrefStat?.allotmentStatus != 3 ? (
+                <Paper sx={{ p: 2 }} elevation={4}>
+                  <Grid container rowGap={3}>
+                    <Grid item sm={6}>
+                      <Typography variant="subtitle1" className={classes.label}>
+                        Room:
+                      </Typography>
+                      <Typography variant="h5">{roomInfo?.roomName}</Typography>
+                    </Grid>
+                    <Grid item sm={6}>
+                      <Typography variant="subtitle1" className={classes.label}>
+                        Hostel Name:
+                      </Typography>
+                      <Typography variant="h5">
+                        {roomInfo?.hostelName}
                       </Typography>
                     </Grid>
-                  ) : null}
-                </Grid>
-              </Paper>
+                    <Grid item sm={6}>
+                      <Typography variant="subtitle1" className={classes.label}>
+                        Block Name:
+                      </Typography>
+                      <Typography variant="h5">
+                        {roomInfo?.blockName}
+                      </Typography>
+                    </Grid>
+                    <Grid item sm={6}>
+                      <Typography variant="subtitle1" className={classes.label}>
+                        Floor Name:
+                      </Typography>
+                      <Typography variant="h5">
+                        {roomInfo?.floorName}
+                      </Typography>
+                    </Grid>
+
+                    {/* <div className="room-attributes"> */}
+                    <Grid item sm={12}>
+                      <Typography variant="body1" className={classes.label}>
+                        Room Type:
+                      </Typography>
+                      <Typography variant="h5">{roomInfo?.roomType}</Typography>
+                    </Grid>
+                    {roomInfo?.attributes?.length ? (
+                      <Grid item sm={12}>
+                        <Typography variant="body1" className={classes.label}>
+                          Amenities :
+                        </Typography>
+                        <Typography variant="body1">
+                          <Stack direction spacing={2} gap={2}>
+                            {roomInfo?.attributes?.map((item) => {
+                              return (
+                                <Chip
+                                  variant="outlined"
+                                  color="primary"
+                                  label={item}
+                                />
+                              );
+                            })}
+                          </Stack>
+                        </Typography>
+                      </Grid>
+                    ) : null}
+                  </Grid>
+                </Paper>
+              ) : null}
             </Grid>
           ) : (
             <Box
@@ -386,7 +406,8 @@ function RoomPreferenceV2({ next }) {
               alignItems="center"
             >
               <Typography variant="h3" textAlign="center" color="grey">
-                Your preference has been captured please make the payment and await allotment.
+                Your preference has been captured please make the payment and
+                await allotment.
               </Typography>
             </Box>
           )}

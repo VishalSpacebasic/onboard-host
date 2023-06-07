@@ -621,7 +621,7 @@ function PaymentPage({ next }: Props) {
             </Box>
           </Grid>
         ) : null}
-        {paymentInfo?.paymentStatus == "Pending" ? (
+        {/* {paymentInfo?.paymentStatus == "Pending" ? (
           <Grid item sm={4}>
             <Typography
               sx={{ marginX: "auto", marginY: 20, opacity: 0.4 }}
@@ -633,7 +633,7 @@ function PaymentPage({ next }: Props) {
               will update you shortly.{" "}
             </Typography>
           </Grid>
-        ) : null}
+        ) : null} */}
         {paymentInfo?.paymentStatus == "Paid" &&
         paymentInfo.paymentVerified == 1 &&
         allocationStatus != 3 ? (

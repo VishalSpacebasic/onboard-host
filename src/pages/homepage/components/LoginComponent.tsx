@@ -163,7 +163,7 @@ function LoginComponent({ setNewUser }) {
                   pattern: {
                     value: /^[0-9]{10}$/i,
                     message: "Invalid phone number",
-                  }
+                  },
                 }}
                 render={({ field }) => (
                   <TextField
@@ -226,21 +226,29 @@ function LoginComponent({ setNewUser }) {
             position: "relative",
             bottom: "-10px",
             opacity: "0.7",
+            display:"flex",
+            justifyContent:"center",
+            gap:1
+
+
           }}
           textAlign="center"
           variant="body1"
+          fontWeight={"500"}
         >
-          Already have an application ID{" "}
-          <a
-            onClick={() => setNewUser(false)}
-            style={{
-              color: "blue",
-              textDecoration: "underline",
-              cursor: "pointer",
-            }}
-          >
-            click here
-          </a>
+          Already have an application ID{" "} 
+          <Typography fontWeight={"600"}>
+            <a
+              onClick={() => setNewUser(false)}
+              style={{
+                color: "blue",
+                textDecoration: "underline",
+                cursor: "pointer",
+              }}
+            >
+              click here
+            </a>
+          </Typography>
         </Typography>
       </Box>
     </Box>
