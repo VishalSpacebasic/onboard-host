@@ -95,10 +95,10 @@ function HomePage() {
 
             <Paper
               sx={{
-                pl: "30px",
-                pr: "30px",
-                pt: "50px",
-                pb: "30px",
+                pl: "10px",
+                pr: "10px",
+                pt: "15px",
+                pb: "10px",
                 maxWidth: "600px",
                 display: "flex",
                 flexDirection: "column",
