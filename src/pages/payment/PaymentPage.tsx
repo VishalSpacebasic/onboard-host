@@ -349,6 +349,9 @@ function PaymentPage({ next }: Props) {
                   Deposit : {paymentInfo?.deposit} INR
                 </Typography>
                 <Typography variant="body1" gutterBottom>
+                  Processing Fee : 0 INR
+                </Typography>
+                <Typography variant="body1" gutterBottom>
                   SGST : {paymentInfo?.sgst} INR
                 </Typography>
                 <Typography variant="body1" gutterBottom>
