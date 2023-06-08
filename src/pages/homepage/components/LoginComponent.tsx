@@ -220,7 +220,7 @@ function LoginComponent({ setNewUser }) {
             </Grid>
           </Grid>
         </form>
-        <Typography
+        {/* <Typography
           sx={{
             mt: "20px",
             position: "relative",
@@ -249,7 +249,7 @@ function LoginComponent({ setNewUser }) {
               click here
             </a>
           </Typography>
-        </Typography>
+        </Typography> */}
       </Box>
     </Box>
   );
