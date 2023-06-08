@@ -5,6 +5,7 @@ import {
   IconButton,
   Paper,
   Stack,
+  Tab,
   Typography,
 } from "@mui/material";
 import { useEffect, useState } from "react";
@@ -21,6 +22,7 @@ import {
 import LoginComponent from "./components/LoginComponent";
 import LoginByAppId from "./components/LoginByAppId";
 import Scrollbars from "react-custom-scrollbars-2";
+import { TabContext, TabList, TabPanel } from "@mui/lab";
 
 function HomePage() {
   const { collegeUrl } = useParams();
@@ -29,6 +31,10 @@ function HomePage() {
   const [logo, setLogo] = useState("");
   const navigate = useNavigate();
   const [newUser, setNewUser] = useState(true);
+  const [tab, setTab] = useState();
+  const handleTabChange = (event: React.SyntheticEvent, newValue: string) => {
+    setTab(newValue);
+  };
   useEffect(() => {
     console.log("HOMEPAGE LOG");
     axiosInstance
@@ -86,7 +92,7 @@ function HomePage() {
               {" "}
               {collegeContext?.collegeName} Student Housing Registration Portal
             </Typography>
-           
+
             <Paper
               sx={{
                 pl: "30px",
@@ -100,7 +106,24 @@ function HomePage() {
               }}
               elevation={5}
             >
-          
+              <TabContext value={tab}>
+                <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+                  <TabList
+                    variant="fullWidth"
+                    onChange={handleTabChange}
+                    aria-label="lab API tabs example"
+                  >
+                    <Tab label="NEW APPLICANT" value="1" />
+                    <Tab label="EXISTING APPLICANT" value="2" />
+                  </TabList>
+                </Box>
+                <TabPanel value="1">
+                  <LoginComponent setNewUser={setNewUser} />
+                </TabPanel>
+                <TabPanel value="2">
+                  <LoginByAppId />
+                </TabPanel>
+              </TabContext>
               <Box
                 sx={{
                   position: "relative",
@@ -121,11 +144,11 @@ function HomePage() {
                   {/* <img src={logo} width="100px" alt="" /> */}
                 </Stack>
               </Box>
-              {newUser ? (
+              {/* {newUser ? (
                 <LoginComponent setNewUser={setNewUser} />
               ) : (
                 <LoginByAppId />
-              )}
+              )} */}
             </Paper>
           </Stack>
           {/* </Box> */}
