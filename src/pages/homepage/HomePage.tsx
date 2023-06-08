@@ -31,7 +31,7 @@ function HomePage() {
   const [logo, setLogo] = useState("");
   const navigate = useNavigate();
   const [newUser, setNewUser] = useState(true);
-  const [tab, setTab] = useState();
+  const [tab, setTab] = useState(1);
   const handleTabChange = (event: React.SyntheticEvent, newValue: string) => {
     setTab(newValue);
   };
