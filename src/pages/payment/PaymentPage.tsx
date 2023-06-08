@@ -343,7 +343,7 @@ function PaymentPage({ next }: Props) {
               </Grid> */}
               <Grid item xs={12} sm={6}>
                 <Typography variant="body1" gutterBottom>
-                  Basic : {paymentInfo?.basic} INR
+                  Basic (Monthly) : {paymentInfo?.basic} INR 
                 </Typography>
                 <Typography variant="body1" gutterBottom>
                   Deposit : {paymentInfo?.deposit} INR
