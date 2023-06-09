@@ -27,6 +27,7 @@ import {
 import RoomSelectionDisplay from "./components/RoomSelectionDisplay";
 import { getRoomAllocationStatus } from "../../api/APIS/wizard-api";
 import { getPaymentInfo } from "../../api/APIS/payment-routes";
+import { useParams } from "react-router-dom";
 
 export type RoomType = {
   name: string;
@@ -50,6 +51,7 @@ function RoomPreferenceV2({ next }) {
   const [roomPrefStat, setRoomPrefStat] = useState<any>({});
   const [roomInfo, setRoomInfo] = useState<any>();
   const [roomSelected, setRoomSelected] = useState<any>(false);
+  const { collegeUrl } = useParams();
   const useStyles = makeStyles((theme) => ({
     root: {
       display: "flex",
@@ -114,6 +116,8 @@ function RoomPreferenceV2({ next }) {
 
         console.log(roomPreference);
       }
+    } else if (roomPrefStat.allotmentStatus == 2 && collegeUrl == "sunway") {
+      next();
     } else if (roomPrefStat.allotmentStatus == 1) {
       next();
     } else if (roomPrefStat.allotmentStatus == 2) {
@@ -311,8 +315,7 @@ function RoomPreferenceV2({ next }) {
                     </Typography>
                     <Typography variant="h5">
                       {" "}
-                      Your room has been reserved and is awaiting approval from
-                      the hostel team.
+                      Your room has been reserved. {collegeUrl=='sunway'?" Please make the payment.":" and is awaiting approval from the hostel team."}
                     </Typography>
                   </Stack>
                 ) : null}

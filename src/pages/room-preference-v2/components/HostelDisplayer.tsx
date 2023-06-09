@@ -18,8 +18,8 @@ function HostelDisplayer({
           <Stack spacing={1} key={block.id}>
             {/* {JSON.stringify(block)} */}
             <Breadcrumbs separator="›" aria-label="breadcrumb">
-              <Typography>{hostelName}</Typography>
-              <Typography> {block.blockName}</Typography>
+              <Typography fontWeight={"600"}>{hostelName}</Typography>
+              <Typography fontWeight={"600"}> {block.blockName}</Typography>
             </Breadcrumbs>
             <Divider />
             {block.floors.map((floor) => {

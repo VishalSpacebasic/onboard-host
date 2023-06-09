@@ -66,8 +66,8 @@ function WizardComponent() {
         ? [
             { title: "Personal Info", id: 1, show: true },
             { title: "Kyc Verification", id: 2, show: false },
-            { title: "Parent Info", id: 3, show: false },
-            { title: "Academic Info", id: 4, show: false },
+            { title: "Parent Info", id: 3, show: true },
+            { title: "Academic Info", id: 4, show: true },
             { title: "Room Preference", id: 6, show: true },
             { title: "Fee Payment", id: 7, show: true },
             { title: "Document Verification", id: 5, show: true },

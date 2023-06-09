@@ -36,6 +36,7 @@ import { Controller, useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
 import JSZip from "jszip";
 import TransactionCard from "./components/TransactionCard";
+import { useParams } from "react-router-dom";
 type Props = { next };
 type paymentType = {
   id: number;
@@ -52,8 +53,8 @@ type paymentType = {
   sgst: string;
   cgst: string;
   extras: string;
-  totalAmount: string;
-  pendingAmount: string;
+  totalAmount: number;
+  pendingAmount: number;
   paidAmount: string;
   paymentId: number;
   paymentType: string;
@@ -77,6 +78,8 @@ function PaymentPage({ next }: Props) {
   const [transactions, setTransactions] = useState([]);
   const [apiTrigger, CallApiTrigger] = useState<boolean>(true);
   const [buttonLoading, setButtonLoading] = useState(false);
+  const [originalPrice, setOriginalPrice] = useState();
+  const [active, setActive] = useState<any>(1);
   const {
     control,
     handleSubmit,
@@ -97,6 +100,7 @@ function PaymentPage({ next }: Props) {
     });
     getPaymentInfo().then(({ result }) => {
       setPaymentInfo(result);
+      setOriginalPrice(result.totalAmount);
     });
     fetchPaymentHistory();
   }, [apiTrigger]);
@@ -118,13 +122,16 @@ function PaymentPage({ next }: Props) {
   const handleNextClicked = () => {
     if (
       paymentInfo.paymentStatus == "Paid" &&
-      paymentInfo.paymentVerified == 1 
+      paymentInfo.paymentVerified == 1
     ) {
       next();
       return 0;
-    } 
-    if(paymentInfo.paymentType=="Offline" && paymentInfo?.paymentStatus=="Paid"){
-      next()
+    }
+    if (
+      paymentInfo.paymentType == "Offline" &&
+      paymentInfo?.paymentStatus == "Paid"
+    ) {
+      next();
     }
     if (allocationStatus == 3) {
       // toast("Please wait till the hostel team allocates a room for you");
@@ -280,12 +287,39 @@ function PaymentPage({ next }: Props) {
     const { result } = await getPastTransactions();
     setTransactions(result);
   };
-
+  const priceChanger = (divider: number) => {
+    const price = paymentInfo?.pendingAmount / divider;
+    setPaymentInfo({ ...paymentInfo, pendingAmount: originalPrice / divider });
+    setActive(divider);
+  };
+  const { collegeUrl } = useParams();
   return (
     <Container>
       <Grid container spacing={2}>
         <Grid item sm={8}>
           <Paper elevation={3} sx={{ padding: "16px" }}>
+            {collegeUrl == "sunway" ? (
+              <Stack direction justifyContent={"space-around"}>
+                <Button
+                  variant={active == 4 ? "contained" : "text"}
+                  onClick={() => priceChanger(4)}
+                >
+                  Quarterly
+                </Button>
+                <Button
+                  variant={active == 2 ? "contained" : "text"}
+                  onClick={() => priceChanger(2)}
+                >
+                  Half-Yearly
+                </Button>
+                <Button
+                  variant={active == 1 ? "contained" : "text"}
+                  onClick={() => priceChanger(1)}
+                >
+                  Anually
+                </Button>
+              </Stack>
+            ) : null}
             <Grid container spacing={2}>
               {paymentInfo?.hostelName ? (
                 <>
@@ -343,7 +377,7 @@ function PaymentPage({ next }: Props) {
               </Grid> */}
               <Grid item xs={12} sm={6}>
                 <Typography variant="body1" gutterBottom>
-                  Basic (Monthly) : {paymentInfo?.basic} INR 
+                  Basic (Monthly) : {paymentInfo?.basic} INR
                 </Typography>
                 <Typography variant="body1" gutterBottom>
                   Deposit : {paymentInfo?.deposit} INR
