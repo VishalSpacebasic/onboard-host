@@ -120,6 +120,9 @@ function PaymentPage({ next }: Props) {
     fetchPaymentHistory();
   }, []);
   const handleNextClicked = () => {
+    if(     paymentInfo.paymentStatus == "Paid" && collegeUrl=='sunway'){
+      next();
+    }
     if (
       paymentInfo.paymentStatus == "Paid" &&
       paymentInfo.paymentVerified == 1
