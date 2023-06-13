@@ -27,6 +27,8 @@ import KycVerificationPage from "../Kyc verification/KycVerificationPage";
 import axiosInstance from "../../api/axios.instance";
 import { NavLink, useParams } from "react-router-dom";
 import Scrollbars from "react-custom-scrollbars-2";
+import RoomSelectionPage from "../room-selection-page/RoomSelectionPage";
+import BankDetailsPage from "../bank-details/BankDetailsPage";
 
 function WizardComponent() {
   const [activeStep, setActiveStep] = React.useState(0);
@@ -78,9 +80,11 @@ function WizardComponent() {
             { title: "Kyc Verification", id: 2, show: false },
             { title: "Parent Info", id: 3, show: true },
             { title: "Academic Info", id: 4, show: true },
+            { title: "Bank Details", id: 10, show: true },
             { title: "Document Verification", id: 5, show: true },
             { title: "Room Preference", id: 6, show: true },
             { title: "Fee Payment", id: 7, show: true },
+            { title: "Room Selection", id: 9, show: true },
             { title: "Sign Contract", id: 8, show: true },
           ];
     setsteps(result.filter((item) => item.show));
@@ -193,6 +197,10 @@ function WizardComponent() {
               <RoomPreferenceV2 next={goToNextStep} />
             ) : null}
             {currentStepId === 7 ? <PaymentPage next={goToNextStep} /> : null}
+            {currentStepId === 9 ? (
+              <RoomSelectionPage next={goToNextStep} />
+            ) : null}
+            {currentStepId === 10 ? <BankDetailsPage next={goToNextStep}></BankDetailsPage> : null}
             {currentStepId === 8 ? (
               <Box
                 height="80vh"

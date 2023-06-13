@@ -5,13 +5,14 @@ import { Breadcrumbs, Button, Chip, Divider, Paper } from "@mui/material";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import DeleteIcon from "@mui/icons-material/Delete";
 
-type Props = { roomItem; roomData; selectedRoom; setSelectedRoom };
+type Props = { roomItem; roomData; selectedRoom; setSelectedRoom; hidePrice };
 
 function RoomSelectionDisplay({
   roomData,
   roomItem,
   setSelectedRoom,
   selectedRoom,
+  hidePrice,
 }: Props) {
   function clearSelection() {
     setSelectedRoom(null);
@@ -85,12 +86,17 @@ function RoomSelectionDisplay({
                 </Typography>
               </Box>
             </Stack>
-            <Typography variant="body1" gutterBottom>
-              Price
-            </Typography>
-            <Typography variant="h4" gutterBottom>
-              {selectedRoom?.price} INR
-            </Typography>
+            {!hidePrice ? (
+              <>
+                {" "}
+                <Typography variant="body1" gutterBottom>
+                  Price
+                </Typography>
+                <Typography variant="h4" gutterBottom>
+                  {selectedRoom?.price} INR
+                </Typography>
+              </>
+            ) : null}
           </Box>
           <Stack>
             <Button

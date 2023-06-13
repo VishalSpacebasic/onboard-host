@@ -111,7 +111,7 @@ function PaymentPage({ next }: Props) {
       console.log("unMounted");
       emitter.off("next-clicked", handleNextClicked);
     };
-  }, [paymentInfo]);
+  }, [paymentInfo, allocationStatus]);
 
   useEffect(() => {
     getPaymentMethods().then((data) => {
@@ -120,28 +120,33 @@ function PaymentPage({ next }: Props) {
     fetchPaymentHistory();
   }, []);
   const handleNextClicked = () => {
-    if(     paymentInfo.paymentStatus == "Paid" && collegeUrl=='sunway'){
+    console.log(paymentInfo);
+
+    if (collegeUrl === "sunway" && paymentInfo.paymentStatus === "Paid") {
       next();
-    }
-    if (
-      paymentInfo.paymentStatus == "Paid" &&
-      paymentInfo.paymentVerified == 1
+    } else if (
+      paymentInfo.paymentStatus === "Paid" &&
+      paymentInfo.paymentVerified === 1
     ) {
       next();
       return 0;
-    }
-    if (
-      paymentInfo.paymentType == "Offline" &&
-      paymentInfo?.paymentStatus == "Paid"
+    } else if (
+      paymentInfo.paymentType === "Offline" &&
+      paymentInfo.paymentStatus === "Paid"
     ) {
       next();
-    }
-    if (allocationStatus == 3) {
+    } else if (
+      paymentInfo.paymentType === "Online" &&
+      paymentInfo.paymentStatus === "Paid"
+    ) {
+      next();
+    } else if (allocationStatus === 3) {
       // toast("Please wait till the hostel team allocates a room for you");
       // return;
       next();
     }
   };
+
   function loadScript(src) {
     return new Promise((resolve) => {
       const script = document.createElement("script");

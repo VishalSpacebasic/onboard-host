@@ -146,6 +146,8 @@ function RoomPreferenceV2({ next }) {
 
     setRoomSelection(false);
   }, [roomSelected]);
+
+  //*Event Emitter handle
   useEffect(() => {
     emitter.removeAllListeners("next-clicked");
     emitter.on("next-clicked", handleNextClicked);
@@ -154,6 +156,8 @@ function RoomPreferenceV2({ next }) {
       emitter.off("next-clicked", handleNextClicked);
     };
   }, [selectedRoom, roomPreference, roomSelection, roomPrefStat, roomSelected]);
+
+
   useEffect(() => {}, [mainRoomName]);
   const addRoomTypeToPreference = (subRoom: any) => {
     console.log(subRoom);
@@ -330,7 +334,7 @@ function RoomPreferenceV2({ next }) {
                     >
                       <Typography variant="h3" textAlign="center" color="grey">
                         Your preference has been captured please make the
-                        payment and await allotment.
+                        payment.
                       </Typography>
                     </Box>
                   </>
@@ -409,8 +413,7 @@ function RoomPreferenceV2({ next }) {
               alignItems="center"
             >
               <Typography variant="h3" textAlign="center" color="grey">
-                Your preference has been captured please make the payment and
-                await allotment.
+                Your preference has been captured please make the payment .
               </Typography>
             </Box>
           )}

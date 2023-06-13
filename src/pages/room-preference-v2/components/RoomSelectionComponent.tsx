@@ -9,8 +9,8 @@ import RoomDisplay from "./RoomDisplay";
 
 type Props = {
   roomTypeForRooms: any;
-  selectRoom: any;
-  setRoomTypeForRooms: any;
+  selectRoom ? : any;
+  setRoomTypeForRooms ?: any;
   roomSelection: any;
 };
 
@@ -35,19 +35,19 @@ function RoomSelectionComponent({
     setHostels(convertFormat(roomTypeForRooms).hostels);
     setBlocks(convertFormat(roomTypeForRooms).blocks);
     setFloors(convertFormat(roomTypeForRooms).floors);
-  }, []);
+  }, [roomTypeForRooms]);
   function convertFormat(original) {
-    const hostels = original.hostels.map((hostel) => {
+    const hostels = original.hostels?.map((hostel) => {
       return { id: hostel.id, name: hostel.hostelName };
     });
 
-    const blocks = original.hostels.flatMap((hostel) => {
+    const blocks = original.hostels?.flatMap((hostel) => {
       return hostel.blocks.map((block) => {
         return { id: block.id, name: block.blockName, hostelId: hostel.id };
       });
     });
 
-    const floors = original.hostels.flatMap((hostel) => {
+    const floors = original.hostels?.flatMap((hostel) => {
       return hostel.blocks.flatMap((block) => {
         return block.floors.map((floor) => {
           return { id: floor.id, name: floor.floorName, blockId: block.id };
@@ -55,13 +55,14 @@ function RoomSelectionComponent({
       });
     });
 
-    const rooms = original.hostels.flatMap((hostel) => {
+    const rooms = original.hostels?.flatMap((hostel) => {
       return hostel.blocks.flatMap((block) => {
         return block.floors.flatMap((floor) => {
           return floor.rooms.map((room) => {
             return {
               id: room.id,
               roomName: room.roomName,
+              residents:room.residents,
               totalOccupancy: room.totalOccupancy,
               availability: room.availability,
               roomTypeId: room.roomTypeId,
@@ -94,6 +95,7 @@ function RoomSelectionComponent({
                   availability: room.availability,
                   roomTypeId: room.roomTypeId,
                   roomType: room.roomType,
+                  residents:room.residents,
                 }));
               return {
                 id: floor.id,
@@ -144,7 +146,7 @@ function RoomSelectionComponent({
     setSelectedBlock(
       selectedBlock.filter((block) => blockIds.includes(block.id))
     );
-  }, [selectedHostel]);
+  }, [selectedHostel,roomTypeForRooms]);
   useEffect(() => {
     const blockIds = selectedBlock.map((block) => block.id);
     const filteredFloor = formatted?.floors?.filter((floor) => {

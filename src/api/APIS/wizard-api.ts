@@ -19,7 +19,11 @@ export const getStudentInfo = () => {
   return axiosInstance.get(`${v3Url}/studentInfo`);
 };
 
-export const setAcademicInfo = (data: { courseId: number; streamId: number; batch: number; }) => {
+export const setAcademicInfo = (data: {
+  courseId: number;
+  streamId: number;
+  batch: number;
+}) => {
   return axiosInstance.post(`${v3Url}/academicInfo`, data);
 };
 
@@ -72,5 +76,13 @@ export const uplaodFileForVerification = async (data: FormData) => {
 };
 export const getPaymentMethods = async () => {
   const result = await axiosInstance.get(`${v3Url}/paymentMethods`);
+  return result.data;
+};
+export const getBankDetails = async () => {
+  const result = await axiosInstance.get(`${v3Url}/bank-details`);
+  return result.data;
+};
+export const setBankDetails = async (data) => {
+  const result = await axiosInstance.post(`${v3Url}/bank-details`, data);
   return result.data;
 };
