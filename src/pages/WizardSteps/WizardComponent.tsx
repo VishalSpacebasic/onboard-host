@@ -29,6 +29,7 @@ import { NavLink, useParams } from "react-router-dom";
 import Scrollbars from "react-custom-scrollbars-2";
 import RoomSelectionPage from "../room-selection-page/RoomSelectionPage";
 import BankDetailsPage from "../bank-details/BankDetailsPage";
+import HealthInfoPage from "../health-info/HealthInfoPage";
 
 function WizardComponent() {
   const [activeStep, setActiveStep] = React.useState(0);
@@ -81,6 +82,7 @@ function WizardComponent() {
             { title: "Parent Info", id: 3, show: true },
             { title: "Academic Info", id: 4, show: true },
             { title: "Bank Details", id: 10, show: true },
+            { title: "Medical Info", id: 11, show: true },
             { title: "Document Verification", id: 5, show: true },
             { title: "Room Preference", id: 6, show: true },
             { title: "Fee Payment", id: 7, show: true },
@@ -97,10 +99,10 @@ function WizardComponent() {
   }, []);
 
   const goToNextStep = async () => {
-    console.log("CLICKED", steps, activeStep, currentStepId);
+    console.log("CLICKED", steps, activeStep, currentStepId,steps[activeStep + 1].id);
     const currStep = activeStep;
     // setActiveStep(currStep + 1);
-    console.log(steps[currStep + 1].id);
+    console.log(steps[currStep +1].id);
 
     setcurrentStepId(steps[currStep + 1].id);
     dispatch(setWizardStep(currStep + 1));
@@ -201,6 +203,7 @@ function WizardComponent() {
               <RoomSelectionPage next={goToNextStep} />
             ) : null}
             {currentStepId === 10 ? <BankDetailsPage next={goToNextStep}></BankDetailsPage> : null}
+            {currentStepId === 11 ? <HealthInfoPage next={goToNextStep} ></HealthInfoPage> : null}
             {currentStepId === 8 ? (
               <Box
                 height="80vh"
