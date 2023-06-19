@@ -37,6 +37,7 @@ import { useSelector } from "react-redux";
 import JSZip from "jszip";
 import TransactionCard from "./components/TransactionCard";
 import { useParams } from "react-router-dom";
+import ServiceSelector from "./ServiceSelectors/ServiceSelector";
 type Props = { next };
 type paymentType = {
   id: number;
@@ -80,6 +81,8 @@ function PaymentPage({ next }: Props) {
   const [buttonLoading, setButtonLoading] = useState(false);
   const [originalPrice, setOriginalPrice] = useState();
   const [active, setActive] = useState<any>(1);
+  const [services, setServices] = useState<any>([]);
+  const [originalInfo, setOriginalInfo] = useState<paymentType>();
   const {
     control,
     handleSubmit,
@@ -101,6 +104,7 @@ function PaymentPage({ next }: Props) {
     getPaymentInfo().then(({ result }) => {
       setPaymentInfo(result);
       setOriginalPrice(result.totalAmount);
+      setOriginalInfo(result);
     });
     fetchPaymentHistory();
   }, [apiTrigger]);
@@ -300,9 +304,43 @@ function PaymentPage({ next }: Props) {
     setPaymentInfo({ ...paymentInfo, pendingAmount: originalPrice / divider });
     setActive(divider);
   };
+  useEffect(() => {
+    const initialValues = {
+      cgstTotal: parseFloat(originalInfo?.cgst),
+      sgstTotal: parseFloat(originalInfo?.sgst),
+      totalAmount: parseFloat(originalInfo?.totalAmount),
+      pendingAmount:parseFloat(originalInfo?.pendingAmount)
+    };
+  
+    const totals = services.reduce((accumulator, currentService) => {
+      return {
+        cgstTotal: accumulator.cgstTotal + parseFloat(currentService.cgst),
+        sgstTotal: accumulator.sgstTotal + parseFloat(currentService.sgst),
+        totalAmount: accumulator.totalAmount + parseFloat(currentService.total_amount),
+        pendingAmount:accumulator.pendingAmount + parseFloat(currentService.total_amount),
+      };
+    }, initialValues);
+  
+    const cgst = parseFloat(originalInfo?.cgst) + totals.cgstTotal;
+    const sgst = parseFloat(originalInfo?.sgst) + totals.sgstTotal;
+    const totalAmount = parseFloat(originalInfo?.totalAmount) + totals.totalAmount;
+    const pendingAmount =parseFloat(originalInfo?.pendingAmount) + totals.pendingAmount;
+  
+    setPaymentInfo((prevPaymentInfo) => ({
+      ...prevPaymentInfo,
+      sgst,
+      cgst,
+      totalAmount,
+      pendingAmount,
+    }));
+  }, [services]);
   const { collegeUrl } = useParams();
   return (
     <Container>
+      <ServiceSelector
+        masterServices={services}
+        masterServiceSetter={setServices}
+      />
       <Grid container spacing={2}>
         <Grid item sm={8}>
           <Paper elevation={3} sx={{ padding: "16px" }}>

@@ -18,6 +18,7 @@ import { useSelector } from "react-redux";
 import { Stack } from "@mui/system";
 import emitter from "../../../utils/EventEmiter";
 import { getPersonalInfo, setPersonalInfo } from "../../../api/APIS/wizard-api";
+import ProfilePictureSelector from "./ProfilePictureSelector";
 
 function PersonalInfoForm({ next }: any) {
   const [prefil, setPrefil] = useState({});
@@ -85,8 +86,11 @@ function PersonalInfoForm({ next }: any) {
   return (
     <form autoComplete="off" onSubmit={handleSubmit(onSubmit)}>
       <FormControl disabled>
-        <fieldset disabled={currentStatus !== 2} style={{ border: 0 }}>
+        <fieldset style={{ border: 0 }}>
           <Grid justifyContent="space-between" spacing={3} container>
+            <Grid item sm={12}>
+              <ProfilePictureSelector />
+            </Grid>
             <Grid item sm={12} md={5} lg={6}>
               <Controller
                 name="firstName"

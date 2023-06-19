@@ -86,3 +86,16 @@ export const setBankDetails = async (data) => {
   const result = await axiosInstance.post(`${v3Url}/bank-details`, data);
   return result.data;
 };
+
+export const getServices=async ()=>{
+  const result = await axiosInstance.get(`${v3Url}/getServices`);
+  return result.data;
+}
+export const getProfilePicture=async ()=>{
+  const result = await axiosInstance.get(`${v3Url}/profilePicture`);
+  return result.data;
+}
+export const setProfileImage=async (data)=>{
+  const result = await axiosInstance.post(`${v3Url}/profilePicture`,data);
+  return result.data;
+}
