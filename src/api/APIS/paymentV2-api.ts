@@ -24,7 +24,7 @@ export const setServicesSaleItems = async (payload) => {
   return result.data;
 };
 
-export const getTotalSaleItemsBreakdown = async (payload) => {
+export const getTotalSaleItemsBreakdown = async () => {
   const result = await axiosInstance.get(`${v3Url}/get-sale-item-breakup`);
   return result.data;
 };
