@@ -1,34 +1,32 @@
+import { KeyboardArrowLeft, KeyboardArrowRight } from "@mui/icons-material";
 import { Button, MobileStepper, Typography } from "@mui/material";
 import Box from "@mui/material/Box";
 import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
 import Stepper from "@mui/material/Stepper";
 import * as React from "react";
+import Scrollbars from "react-custom-scrollbars-2";
 import { useDispatch } from "react-redux";
-import { KeyboardArrowLeft, KeyboardArrowRight } from "@mui/icons-material";
+import { useParams } from "react-router-dom";
 import {
   GetCurrentStatus,
-  GetCurrentStep,
-  getStudentInfo,
+  GetCurrentStep
 } from "../../api/APIS/wizard-api";
-import { setApplicationInfo } from "../../redux/Reducers/applicationReducer";
 import {
   setCurrentStatus,
   setWizardStep,
 } from "../../redux/Reducers/stepReducer";
 import emitter from "../../utils/EventEmiter";
+import KycVerificationPage from "../Kyc verification/KycVerificationPage";
 import AcademicInfo from "../academic-info/AcademicInfo";
+import BankDetailsPage from "../bank-details/BankDetailsPage";
 import DocumentVerification from "../document-verification/DocumentVerification";
 import ParentInfo from "../parentinfo/ParentInfo";
 import PaymentPage from "../payment/PaymentPage";
-import RoomPreferenceV2 from "../room-preference-v2/RoomPreferenceV2";
 import PersonalInfo from "../personalinfo/PersonalInfo";
-import KycVerificationPage from "../Kyc verification/KycVerificationPage";
-import axiosInstance from "../../api/axios.instance";
-import { NavLink, useParams } from "react-router-dom";
-import Scrollbars from "react-custom-scrollbars-2";
+import RoomPreferenceV2 from "../room-preference-v2/RoomPreferenceV2";
 import RoomSelectionPage from "../room-selection-page/RoomSelectionPage";
-import BankDetailsPage from "../bank-details/BankDetailsPage";
+import ServiceSelectorPage from "../service-selector/ServiceSelectorPage";
 
 function WizardComponent() {
   const [activeStep, setActiveStep] = React.useState(0);
@@ -67,10 +65,11 @@ function WizardComponent() {
         : collegeUrl == "sunway"
         ? [
             { title: "Personal Info", id: 1, show: true },
-            { title: "Kyc Verification", id: 2, show: false },
-            { title: "Parent Info", id: 3, show: true },
-            { title: "Academic Info", id: 4, show: true },
+            // { title: "Kyc Verification", id: 2, show: false },
+            // { title: "Parent Info", id: 3, show: true },
+            // { title: "Academic Info", id: 4, show: true },
             { title: "Room Preference", id: 6, show: true },
+            { title: "Service Selector", id: 12, show: true },
             { title: "Fee Payment", id: 7, show: true },
             { title: "Document Verification", id: 5, show: true },
             { title: "Sign Contract", id: 8, show: true },
@@ -80,9 +79,10 @@ function WizardComponent() {
             { title: "Kyc Verification", id: 2, show: false },
             { title: "Parent Info", id: 3, show: true },
             { title: "Academic Info", id: 4, show: true },
-            { title: "Bank Details", id: 10, show: true },
+            // { title: "Bank Details", id: 10, show: true },
             { title: "Document Verification", id: 5, show: true },
             { title: "Room Preference", id: 6, show: true },
+            { title: "Service Selector", id: 12, show: true },
             { title: "Fee Payment", id: 7, show: true },
             { title: "Room Selection", id: 9, show: true },
             { title: "Sign Contract", id: 8, show: true },
@@ -200,7 +200,12 @@ function WizardComponent() {
             {currentStepId === 9 ? (
               <RoomSelectionPage next={goToNextStep} />
             ) : null}
-            {currentStepId === 10 ? <BankDetailsPage next={goToNextStep}></BankDetailsPage> : null}
+            {currentStepId === 10 ? (
+              <BankDetailsPage next={goToNextStep}></BankDetailsPage>
+            ) : null}
+                {currentStepId === 12 ? (
+              <ServiceSelectorPage next={goToNextStep}></ServiceSelectorPage>
+            ) : null}
             {currentStepId === 8 ? (
               <Box
                 height="80vh"

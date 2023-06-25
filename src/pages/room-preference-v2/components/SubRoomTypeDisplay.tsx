@@ -131,14 +131,14 @@ function SubRoomTypeDisplay({
                 >
                   {subRoom.description}
                 </Typography>
-                <Box>
+                {/* <Box>
                   {" "}
                   <Chip
                     variant="outlined"
                     color="success"
                     label={`Starts at: ${subRoom.price} INR`}
                   />
-                </Box>
+                </Box> */}
               </CardContent>
               <CardActions>
                 {/* <Button size="small">Share</Button>

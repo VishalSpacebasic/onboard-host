@@ -1,7 +1,7 @@
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
 
-const API_BASE_URL = "http://localhost:8080/";
-// const API_BASE_URL="https://api.spacebasic.com/"
+// const API_BASE_URL = "http://localhost:8080/";
+const API_BASE_URL = "http://api.demo.spacebasic.com/";
 
 const axiosInstance: AxiosInstance = axios.create({
   baseURL: API_BASE_URL,

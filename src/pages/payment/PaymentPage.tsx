@@ -38,6 +38,7 @@ import JSZip from "jszip";
 import TransactionCard from "./components/TransactionCard";
 import { useParams } from "react-router-dom";
 import ServiceSelector from "./ServiceSelectors/ServiceSelector";
+import DataDisplayer from "./ServiceSelectors/DataDisplayer";
 type Props = { next };
 type paymentType = {
   id: number;
@@ -309,23 +310,27 @@ function PaymentPage({ next }: Props) {
       cgstTotal: parseFloat(originalInfo?.cgst),
       sgstTotal: parseFloat(originalInfo?.sgst),
       totalAmount: parseFloat(originalInfo?.totalAmount),
-      pendingAmount:parseFloat(originalInfo?.pendingAmount)
+      pendingAmount: parseFloat(originalInfo?.pendingAmount),
     };
-  
+
     const totals = services.reduce((accumulator, currentService) => {
       return {
         cgstTotal: accumulator.cgstTotal + parseFloat(currentService.cgst),
         sgstTotal: accumulator.sgstTotal + parseFloat(currentService.sgst),
-        totalAmount: accumulator.totalAmount + parseFloat(currentService.total_amount),
-        pendingAmount:accumulator.pendingAmount + parseFloat(currentService.total_amount),
+        totalAmount:
+          accumulator.totalAmount + parseFloat(currentService.total_amount),
+        pendingAmount:
+          accumulator.pendingAmount + parseFloat(currentService.total_amount),
       };
     }, initialValues);
-  
+
     const cgst = parseFloat(originalInfo?.cgst) + totals.cgstTotal;
     const sgst = parseFloat(originalInfo?.sgst) + totals.sgstTotal;
-    const totalAmount = parseFloat(originalInfo?.totalAmount) + totals.totalAmount;
-    const pendingAmount =parseFloat(originalInfo?.pendingAmount) + totals.pendingAmount;
-  
+    const totalAmount =
+      parseFloat(originalInfo?.totalAmount) + totals.totalAmount;
+    const pendingAmount =
+      parseFloat(originalInfo?.pendingAmount) + totals.pendingAmount;
+
     setPaymentInfo((prevPaymentInfo) => ({
       ...prevPaymentInfo,
       sgst,
@@ -335,16 +340,72 @@ function PaymentPage({ next }: Props) {
     }));
   }, [services]);
   const { collegeUrl } = useParams();
+  const [noOfDays, setNoOfDays] = useState();
+  const calculatDate = (date) => {
+    const checkInDate = new Date(date);
+
+    const criteria = [
+      { startDate: 2, endDate: 7, numDays: 17 },
+      { startDate: 7, endDate: 12, numDays: 30 },
+      { startDate: 12, endDate: 31, numDays: 45 },
+    ];
+
+    const checkInMonth = checkInDate.getMonth() + 1;
+    const checkInDay = checkInDate.getDate();
+
+    for (const criterion of criteria) {
+      const dailyCharge = parseInt(originalInfo?.totalAmount) / 120;
+      if (checkInMonth === 12 && criterion.endDate === 31) {
+        if (checkInDay >= criterion.startDate) {
+          return criterion;
+        }
+      } else if (
+        checkInDay >= criterion.startDate &&
+        checkInDay <= criterion.endDate
+      ) {
+        console.log(criterion);
+        setNoOfDays(parseInt(criterion.numDays));
+        const totalAmount =
+          parseInt(originalInfo?.totalAmount) +
+          dailyCharge * parseInt(criterion.numDays);
+        console.log(totalAmount);
+        const cgst =
+          parseInt(originalInfo?.cgst) +
+          (parseInt(originalInfo?.cgst) / 120) * parseInt(criterion.numDays);
+        const sgst =
+          parseInt(originalInfo?.sgst) +
+          (parseInt(originalInfo?.sgst) / 120) * parseInt(criterion.numDays);
+        setPaymentInfo({
+          ...paymentInfo,
+          pendingAmount: totalAmount,
+          cgst: cgst,
+          sgst: sgst,
+        });
+        return criterion;
+      }
+    }
+
+    return null;
+  };
   return (
     <Container>
-      <ServiceSelector
+      {/* <ServiceSelector
         masterServices={services}
         masterServiceSetter={setServices}
+      /> */}
+      <Typography variant="body1" color="initial">
+        Check In Date
+      </Typography>
+
+      <TextField
+        onChange={(e) => calculatDate(e.target.value)}
+        sx={{ mb: 3 }}
+        type="date"
       />
       <Grid container spacing={2}>
         <Grid item sm={8}>
           <Paper elevation={3} sx={{ padding: "16px" }}>
-            {collegeUrl == "sunway" ? (
+            {/* {collegeUrl == "sunway" ? (
               <Stack direction justifyContent={"space-around"}>
                 <Button
                   variant={active == 4 ? "contained" : "text"}
@@ -365,8 +426,43 @@ function PaymentPage({ next }: Props) {
                   Anually
                 </Button>
               </Stack>
-            ) : null}
+            ) : null} */}
+              <Grid item xs={12} sm={6}>
+                <Typography variant="body1" gutterBottom>
+                  Basic (Quterly) : {paymentInfo?.basic} INR
+                </Typography>
+                <Typography variant="body1" gutterBottom>
+                  Deposit :5000 INR
+                </Typography>
+                <Typography variant="body1" gutterBottom>
+                  Processing Fee : 0 INR
+                </Typography>
+                {/* <Typography variant="body1" gutterBottom>
+                  SGST : {paymentInfo?.sgst} INR
+                </Typography>
+                <Typography variant="body1" gutterBottom>
+                  CGST : {paymentInfo?.cgst} INR 
+                </Typography> */}
+                <Typography variant="body1" gutterBottom>
+                  Pro Rata Charges :{" "}
+                  {paymentInfo?.pendingAmount - originalInfo?.pendingAmount}
+                </Typography>
+                {/* <Typography variant="body1" gutterBottom>
+                  Payment ID:{" "}
+                  {paymentInfo?.paymentId !== 0
+                    ? paymentInfo?.paymentId
+                    : "N/A"}
+                </Typography> */}
+                <Typography variant="body1" gutterBottom>
+                  Pending Amount: {paymentInfo?.pendingAmount} INR
+                </Typography>
+                <Typography variant="body1" gutterBottom>
+                  Paid Amount: {paymentInfo?.paidAmount} INR
+                </Typography>
+              </Grid>
+            <DataDisplayer />
             <Grid container spacing={2}>
+              
               {paymentInfo?.hostelName ? (
                 <>
                   <Grid item xs={12}>
@@ -421,35 +517,7 @@ function PaymentPage({ next }: Props) {
                   </Typography>
                 )}
               </Grid> */}
-              <Grid item xs={12} sm={6}>
-                <Typography variant="body1" gutterBottom>
-                  Basic (Monthly) : {paymentInfo?.basic} INR
-                </Typography>
-                <Typography variant="body1" gutterBottom>
-                  Deposit : {paymentInfo?.deposit} INR
-                </Typography>
-                <Typography variant="body1" gutterBottom>
-                  Processing Fee : 0 INR
-                </Typography>
-                <Typography variant="body1" gutterBottom>
-                  SGST : {paymentInfo?.sgst} INR
-                </Typography>
-                <Typography variant="body1" gutterBottom>
-                  CGST : {paymentInfo?.cgst} INR
-                </Typography>
-                {/* <Typography variant="body1" gutterBottom>
-                  Payment ID:{" "}
-                  {paymentInfo?.paymentId !== 0
-                    ? paymentInfo?.paymentId
-                    : "N/A"}
-                </Typography> */}
-                <Typography variant="body1" gutterBottom>
-                  Pending Amount: {paymentInfo?.pendingAmount} INR
-                </Typography>
-                <Typography variant="body1" gutterBottom>
-                  Paid Amount: {paymentInfo?.paidAmount} INR
-                </Typography>
-              </Grid>
+            
             </Grid>
             <Divider />
             <Box>

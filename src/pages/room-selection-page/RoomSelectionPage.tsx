@@ -75,8 +75,6 @@ function RoomSelectionPage({ next }: Props) {
     });
   };
   const handleNextClicked = () => {
-    console.log(roomPrefStat);
-    
     if(roomPrefStat.allotmentStatus==1){
       next();
       return;
@@ -88,7 +86,6 @@ function RoomSelectionPage({ next }: Props) {
   };
   return (
     <Container maxWidth="xl" mt={2}>
-      {JSON.stringify(roomPrefStat)}
       {roomPrefStat.allotmentStatus == 1 ? (
         <Box>
           <Stack direction spacing={2} gap={1} alignItems="end">

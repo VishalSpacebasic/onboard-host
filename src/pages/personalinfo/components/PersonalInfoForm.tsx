@@ -89,7 +89,7 @@ function PersonalInfoForm({ next }: any) {
         <fieldset style={{ border: 0 }}>
           <Grid justifyContent="space-between" spacing={3} container>
             <Grid item sm={12}>
-              <ProfilePictureSelector />
+              {/* <ProfilePictureSelector />   */}
             </Grid>
             <Grid item sm={12} md={5} lg={6}>
               <Controller

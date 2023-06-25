@@ -1,18 +1,19 @@
-import { Box, Chip, Divider, IconButton, Slide, Stack } from "@mui/material";
-import React, { useEffect } from "react";
-import Card from "@mui/material/Card";
-import CardActions from "@mui/material/CardActions";
-import CardContent from "@mui/material/CardContent";
-import CardMedia from "@mui/material/CardMedia";
-import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
-import CloseIcon from "@mui/icons-material/Close";
+import { Box } from "@mui/material";
+import React from "react";
+import PrefCardItem from "./PrefCardItem";
 
-type Props = { preferences: any; addRoomTypeToPreference: any };
+type Props = {
+  preferences: any;
+  addRoomTypeToPreference: any;
+  saleItemId;
+  setSaleItemId;
+};
 
 function RoomPreferenceDisplay({
   preferences,
   addRoomTypeToPreference,
+  saleItemId,
+  setSaleItemId,
 }: Props) {
   const containerRef = React.useRef(null);
   const [checked, setChecked] = React.useState(true);
@@ -21,54 +22,15 @@ function RoomPreferenceDisplay({
     <Box ref={containerRef}>
       {preferences.map((subRoom) => {
         return (
-          <Slide
-            direction="right"
-            in={checked}
+          <PrefCardItem
             key={subRoom.id}
-            container={containerRef.current}
-          >
-            <Card elevation={2} sx={{ width: "100%", mb: 1 }}>
-              <Stack direction="row" justifyContent="space-between">
-                <CardContent>
-                  <Typography gutterBottom variant="h5" component="div">
-                    {subRoom.roomTypeName}
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    {subRoom?.description}
-                  </Typography>
-                  <Box
-                    sx={{
-                      display: "flex",
-                      gap: 1,
-                      rowGap: 1,
-                      flexWrap: "wrap",
-                      // minHeight: 60,
-                    }}
-                  >
-                    {subRoom.attributes.map((attr) => {
-                      return (
-                        <Chip
-                          key={attr}
-                          label={attr}
-                          size="small"
-                          variant="outlined"
-                          color="info"
-                        />
-                      );
-                    })}
-                  </Box>
-                </CardContent>
-                <CardActions>
-                  <IconButton
-                    onClick={() => addRoomTypeToPreference(subRoom)}
-                    color="error"
-                  >
-                    <CloseIcon />
-                  </IconButton>
-                </CardActions>
-              </Stack>
-            </Card>
-          </Slide>
+            subRoom={subRoom}
+            checked={checked}
+            containerRef={containerRef}
+            addRoomTypeToPreference={addRoomTypeToPreference}
+            saleItemId={saleItemId}
+            setSaleItemId={setSaleItemId}
+          />
         );
       })}
     </Box>

@@ -52,6 +52,7 @@ function RoomPreferenceV2({ next }) {
   const [roomInfo, setRoomInfo] = useState<any>();
   const [roomSelected, setRoomSelected] = useState<any>(false);
   const { collegeUrl } = useParams();
+  const [saleItemId, setSaleItemId] = useState<any>(null);
   const useStyles = makeStyles((theme) => ({
     root: {
       display: "flex",
@@ -97,10 +98,15 @@ function RoomPreferenceV2({ next }) {
           toast("Please add atleast one room preference.");
           return;
         }
+        if (saleItemId == null) {
+          toast("The selected room price details not available");
+          return;
+        }
         const preferences = {
           roomPreference1: roomPreference[0]?.id,
           roomPreference2: roomPreference[1]?.id,
           roomPreference3: roomPreference[2]?.id,
+          saleItemId: saleItemId,
         };
         submitRoomSelection(preferences).then((data) => {
           console.log(data);
@@ -155,8 +161,14 @@ function RoomPreferenceV2({ next }) {
       console.log("unMounted");
       emitter.off("next-clicked", handleNextClicked);
     };
-  }, [selectedRoom, roomPreference, roomSelection, roomPrefStat, roomSelected]);
-
+  }, [
+    selectedRoom,
+    roomPreference,
+    roomSelection,
+    roomPrefStat,
+    roomSelected,
+    saleItemId,
+  ]);
 
   useEffect(() => {}, [mainRoomName]);
   const addRoomTypeToPreference = (subRoom: any) => {
@@ -220,7 +232,6 @@ function RoomPreferenceV2({ next }) {
         checked={roomSelection}
         onClick={() => setRoomSelection(!roomSelection)}
       /> */}
-
       {roomPrefStat.allotmentStatus == 0 ? (
         <Grid container>
           {!roomTypeForRooms ? (
@@ -274,6 +285,8 @@ function RoomPreferenceV2({ next }) {
                   <RoomPreferenceDisplay
                     addRoomTypeToPreference={addRoomTypeToPreference}
                     preferences={roomPreference}
+                    saleItemId={saleItemId}
+                    setSaleItemId={setSaleItemId}
                   />
                 ) : (
                   <RoomSelectionDisplay
@@ -319,7 +332,10 @@ function RoomPreferenceV2({ next }) {
                     </Typography>
                     <Typography variant="h5">
                       {" "}
-                      Your room has been reserved. {collegeUrl=='sunway'?" Please make the payment.":" and is awaiting approval from the hostel team."}
+                      Your room has been reserved.{" "}
+                      {collegeUrl == "sunway"
+                        ? " Please make the payment."
+                        : " and is awaiting approval from the hostel team."}
                     </Typography>
                   </Stack>
                 ) : null}
