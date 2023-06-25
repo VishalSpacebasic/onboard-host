@@ -5,7 +5,10 @@ import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import { useEffect } from "react";
-import { getRoomSaleItem } from "../../../api/APIS/paymentV2-api";
+import {
+  getFeeItemsFromSaleItems,
+  getRoomSaleItem,
+} from "../../../api/APIS/paymentV2-api";
 import React from "react";
 
 type Props = {
@@ -26,10 +29,21 @@ function PrefCardItem({
   setSaleItemId,
 }: Props) {
   const [fee, setFee] = React.useState<any>({});
+  const [feeItems, setFeeItems] = React.useState<any>([]);
+  const formatCurrency = (value) => {
+    return value.toLocaleString("en-US", {
+      style: "currency",
+      currency: "INR",
+    });
+    // return value;
+  };
   useEffect(() => {
     getRoomSaleItem(subRoom.id).then(({ result }) => {
       setFee(result);
       setSaleItemId(result.id);
+      getFeeItemsFromSaleItems(result.id).then((data) => {
+        setFeeItems(data.result[0]);
+      });
     });
     return () => {
       console.log("unmounting");
@@ -78,11 +92,26 @@ function PrefCardItem({
               <Typography variant="h6" gutterBottom>
                 Price Details
               </Typography>
-              <Typography>Basic Price: {fee?.basic}</Typography>
+
+              {feeItems?.feeItems?.map((item) => {
+                return (
+                  <>
+                    <Typography sx={{ mt: 2 }} variant="h5">
+                      {item.name}
+                    </Typography>
+                    <Typography>Basic Price: {item?.basicString}</Typography>
+
+                    <Typography>SGST: {item?.sgstString}</Typography>
+                    <Typography>CGST: {item?.cgstString}</Typography>
+                    <Typography variant="h6">Total: {item?.totalAmountString}</Typography>
+                  </>
+                );
+              })}
+              {/* <Typography>Basic Price: {fee?.basic}</Typography>
               <Typography>SGST: {fee?.sgst}</Typography>
-              <Typography>CGST: {fee?.cgst}</Typography>
-              <Typography variant="h6" gutterBottom>
-                Total Price: {fee?.total_price}
+              <Typography>CGST: {fee?.cgst}</Typography> */}
+              <Typography sx={{mt:2}} variant="h5" gutterBottom>
+                Total Price: {formatCurrency(fee?.total_price)}
               </Typography>
             </Box>
           </CardContent>
