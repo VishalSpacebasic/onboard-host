@@ -349,8 +349,7 @@ function RoomPreferenceV2({ next }) {
                       alignItems="center"
                     >
                       <Typography variant="h3" textAlign="center" color="grey">
-                        Your preference has been captured please make the
-                        payment.
+                        Your preference has been captured please proceed with the room selection.
                       </Typography>
                     </Box>
                   </>
@@ -429,7 +428,7 @@ function RoomPreferenceV2({ next }) {
               alignItems="center"
             >
               <Typography variant="h3" textAlign="center" color="grey">
-                Your preference has been captured please make the payment .
+              Your preference has been captured please proceed with the room selection
               </Typography>
             </Box>
           )}
