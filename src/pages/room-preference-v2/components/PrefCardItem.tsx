@@ -111,7 +111,7 @@ function PrefCardItem({
               <Typography>SGST: {fee?.sgst}</Typography>
               <Typography>CGST: {fee?.cgst}</Typography> */}
               <Typography sx={{mt:2}} variant="h5" gutterBottom>
-                Total Price: {formatCurrency(fee?.total_price)}
+                Total Price: {fee?.total_price}
               </Typography>
             </Box>
           </CardContent>
