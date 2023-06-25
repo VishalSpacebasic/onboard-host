@@ -70,7 +70,7 @@ function WizardComponent() {
             { title: "Academic Info", id: 4, show: true },
             { title: "Room Preference", id: 6, show: true },
             { title: "Room Selection", id: 9, show: true },
-            { title: "Service Selector", id: 12, show: true },
+            // { title: "Service Selector", id: 12, show: true },
             { title: "Fee Payment", id: 7, show: true },
             { title: "Document Verification", id: 5, show: true },
             { title: "Sign Contract", id: 8, show: true },

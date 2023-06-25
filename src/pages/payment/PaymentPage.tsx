@@ -39,6 +39,7 @@ import TransactionCard from "./components/TransactionCard";
 import { useParams } from "react-router-dom";
 import ServiceSelector from "./ServiceSelectors/ServiceSelector";
 import DataDisplayer from "./ServiceSelectors/DataDisplayer";
+import { setServicesSaleItems } from "../../api/APIS/paymentV2-api";
 type Props = { next };
 type paymentType = {
   id: number;
@@ -119,6 +120,9 @@ function PaymentPage({ next }: Props) {
   }, [paymentInfo, allocationStatus]);
 
   useEffect(() => {
+    setServicesSaleItems({
+      selectedServiceIds: [],
+    }).then((result) => {});
     getPaymentMethods().then((data) => {
       setPaymentModes(data.result);
     });
@@ -427,42 +431,41 @@ function PaymentPage({ next }: Props) {
                 </Button>
               </Stack>
             ) : null} */}
-              <Grid item xs={12} sm={6}>
-                <Typography variant="body1" gutterBottom>
-                  Basic (Quterly) : {paymentInfo?.basic} INR
-                </Typography>
-                <Typography variant="body1" gutterBottom>
-                  Deposit :5000 INR
-                </Typography>
-                <Typography variant="body1" gutterBottom>
-                  Processing Fee : 0 INR
-                </Typography>
-                {/* <Typography variant="body1" gutterBottom>
+            <Grid item xs={12} sm={6}>
+              <Typography variant="body1" gutterBottom>
+                Basic (Quterly) : {paymentInfo?.basic} INR
+              </Typography>
+              <Typography variant="body1" gutterBottom>
+                Deposit :5000 INR
+              </Typography>
+              <Typography variant="body1" gutterBottom>
+                Processing Fee : 0 INR
+              </Typography>
+              {/* <Typography variant="body1" gutterBottom>
                   SGST : {paymentInfo?.sgst} INR
                 </Typography>
                 <Typography variant="body1" gutterBottom>
                   CGST : {paymentInfo?.cgst} INR 
                 </Typography> */}
-                <Typography variant="body1" gutterBottom>
-                  Pro Rata Charges :{" "}
-                  {paymentInfo?.pendingAmount - originalInfo?.pendingAmount}
-                </Typography>
-                {/* <Typography variant="body1" gutterBottom>
+              <Typography variant="body1" gutterBottom>
+                Pro Rata Charges :{" "}
+                {paymentInfo?.pendingAmount - originalInfo?.pendingAmount}
+              </Typography>
+              {/* <Typography variant="body1" gutterBottom>
                   Payment ID:{" "}
                   {paymentInfo?.paymentId !== 0
                     ? paymentInfo?.paymentId
                     : "N/A"}
                 </Typography> */}
-                <Typography variant="body1" gutterBottom>
-                  Pending Amount: {paymentInfo?.pendingAmount} INR
-                </Typography>
-                <Typography variant="body1" gutterBottom>
-                  Paid Amount: {paymentInfo?.paidAmount} INR
-                </Typography>
-              </Grid>
+              <Typography variant="body1" gutterBottom>
+                Pending Amount: {paymentInfo?.pendingAmount} INR
+              </Typography>
+              <Typography variant="body1" gutterBottom>
+                Paid Amount: {paymentInfo?.paidAmount} INR
+              </Typography>
+            </Grid>
             <DataDisplayer />
             <Grid container spacing={2}>
-              
               {paymentInfo?.hostelName ? (
                 <>
                   <Grid item xs={12}>
@@ -517,7 +520,6 @@ function PaymentPage({ next }: Props) {
                   </Typography>
                 )}
               </Grid> */}
-            
             </Grid>
             <Divider />
             <Box>
