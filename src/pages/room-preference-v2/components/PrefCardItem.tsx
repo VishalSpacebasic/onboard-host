@@ -99,10 +99,10 @@ function PrefCardItem({
                     <Typography sx={{ mt: 2 }} variant="h5">
                       {item.name}
                     </Typography>
-                    <Typography>Basic Price: {item?.basicString}</Typography>
+                    {/* <Typography>Basic Price: {item?.basicString}</Typography> */}
 
-                    <Typography>SGST: {item?.sgstString}</Typography>
-                    <Typography>CGST: {item?.cgstString}</Typography>
+                    {/* <Typography>SGST: {item?.sgstString}</Typography> */}
+                    {/* <Typography>CGST: {item?.cgstString}</Typography> */}
                     <Typography variant="h6">Total: {item?.totalAmountString}</Typography>
                   </>
                 );

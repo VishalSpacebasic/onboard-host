@@ -393,7 +393,7 @@ function PaymentPage({ next }: Props) {
     const criteria = [
       { startDate: 1, endDate: 11, numDays: 30 },
       { startDate: 12, endDate: 14, numDays: 17 },
-      { startDate: 15, endDate: 27, numDays: 15 },
+      { startDate: 15, endDate: 26, numDays: 15 },
       { startDate: 27, endDate: 31, numDays: 4 },
     ];
 
@@ -497,7 +497,7 @@ function PaymentPage({ next }: Props) {
                   CGST : {paymentInfo?.cgst} INR 
                 </Typography> */}
               <Typography variant="body1" gutterBottom>
-                Pro Rata Charges : {proRata} INR
+                Pro Rata Rental (Check-In) : {proRata} INR
                 {/* {(
                   paymentInfo?.pendingAmount - originalInfo?.pendingAmount
                 ).toFixed(2)} */}
