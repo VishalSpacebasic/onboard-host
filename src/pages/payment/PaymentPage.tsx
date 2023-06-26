@@ -497,7 +497,7 @@ function PaymentPage({ next }: Props) {
                   CGST : {paymentInfo?.cgst} INR 
                 </Typography> */}
               <Typography variant="body1" gutterBottom>
-                Pro Rata Charges :{proRata}
+                Pro Rata Charges : {proRata} INR
                 {/* {(
                   paymentInfo?.pendingAmount - originalInfo?.pendingAmount
                 ).toFixed(2)} */}
@@ -513,7 +513,7 @@ function PaymentPage({ next }: Props) {
                 {/* {parseInt(paymentInfo?.pendingAmount)?.toFixed(2)} INR */}
               </Typography>
               <Typography variant="body1" gutterBottom>
-                Paid Amount: {paymentInfo?.paidAmount} INR
+                Paid Amount : {paymentInfo?.paidAmount} INR
               </Typography>
             </Grid>
             <DataDisplayer />
