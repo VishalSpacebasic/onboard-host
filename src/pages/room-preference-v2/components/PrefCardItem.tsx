@@ -10,6 +10,7 @@ import {
   getRoomSaleItem,
 } from "../../../api/APIS/paymentV2-api";
 import React from "react";
+import { toast } from "react-toastify";
 
 type Props = {
   subRoom;
@@ -43,8 +44,10 @@ function PrefCardItem({
       setSaleItemId(result.id);
       getFeeItemsFromSaleItems(result.id).then((data) => {
         setFeeItems(data.result[0]);
-      });
-    });
+      })
+    }).catch(()=>{
+      toast("Fee Not Added For This Room,Please contact your college admin",{type:"error"})
+    })
     return () => {
       console.log("unmounting");
       setSaleItemId(null);

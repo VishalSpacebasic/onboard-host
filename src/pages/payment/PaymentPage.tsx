@@ -161,9 +161,9 @@ function PaymentPage({ next }: Props) {
   }, [paymentInfo, allocationStatus]);
 
   useEffect(() => {
-    setServicesSaleItems({
-      selectedServiceIds: [],
-    }).then((result) => {});
+    // setServicesSaleItems({
+    //   selectedServiceIds: [],
+    // }).then((result) => {});
     getPaymentMethods().then((data) => {
       setPaymentModes(data.result);
     });
@@ -222,7 +222,7 @@ function PaymentPage({ next }: Props) {
       return;
     }
 
-    const result = await getRazorPayOrder(totalAmount);
+    const result = await getRazorPayOrder(paymentInfo?.pendingAmount);
     console.log(result);
 
     console.log(result);
@@ -444,14 +444,14 @@ function PaymentPage({ next }: Props) {
         masterServiceSetter={setServices}
       /> */}
   
-      <Typography variant="body1" color="initial">
+      {/* <Typography variant="body1" color="initial">
         Check In Date
       </Typography>
       <TextField
         onChange={(e) => calculatDate(e.target.value)}
         sx={{ mb: 3 }}
         type="date"
-      />
+      /> */}
       <Grid container spacing={2}>
         <Grid item sm={8}>
           <Paper elevation={3} sx={{ padding: "16px" }}>
@@ -482,7 +482,7 @@ function PaymentPage({ next }: Props) {
             </Typography>
             <Grid item xs={12} sm={6}>
               <Typography variant="body1" gutterBottom>
-                Basic (Quterly) : {actualBasic} INR
+                Basic : {paymentInfo?.basic} INR
               </Typography>
               {/* <Typography variant="body1" gutterBottom>
                 Deposit :5000 INR
@@ -490,18 +490,18 @@ function PaymentPage({ next }: Props) {
               {/* <Typography variant="body1" gutterBottom>
                 Processing Fee : 0 INR
               </Typography> */}
-              {/* <Typography variant="body1" gutterBottom>
+              <Typography variant="body1" gutterBottom>
                   SGST : {paymentInfo?.sgst} INR
                 </Typography>
                 <Typography variant="body1" gutterBottom>
                   CGST : {paymentInfo?.cgst} INR 
-                </Typography> */}
-              <Typography variant="body1" gutterBottom>
-                Pro Rata Rental (Check-In) : {proRata} INR
+                </Typography>
+              {/* <Typography variant="body1" gutterBottom>
+                Pro Rata Rental (Check-In) : {proRata} INR */}
                 {/* {(
                   paymentInfo?.pendingAmount - originalInfo?.pendingAmount
                 ).toFixed(2)} */}
-              </Typography>
+              {/* </Typography> */}
               {/* <Typography variant="body1" gutterBottom>
                   Payment ID:{" "}
                   {paymentInfo?.paymentId !== 0
@@ -585,7 +585,7 @@ function PaymentPage({ next }: Props) {
                   <Typography variant="h4">
                     {/* {paymentInfo?.pendingAmount} INR
                      */}
-                     {totalAmount - paymentInfo?.paidAmount}  INR
+                     {paymentInfo?.pendingAmount}  INR
                   </Typography>
                 </Stack>
               </Stack>

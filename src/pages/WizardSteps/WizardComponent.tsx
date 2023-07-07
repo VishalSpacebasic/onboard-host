@@ -79,9 +79,9 @@ function WizardComponent() {
             { title: "Personal Info", id: 1, show: true },
             { title: "Kyc Verification", id: 2, show: false },
             { title: "Parent Info", id: 3, show: true },
-            // { title: "Academic Info", id: 4, show: true },
-            // { title: "Bank Details", id: 10, show: true },
-            // { title: "Document Verification", id: 5, show: true },
+            { title: "Academic Info", id: 4, show: true },
+            { title: "Bank Details", id: 10, show: true },
+            { title: "Document Verification", id: 5, show: true },
             { title: "Room Preference", id: 6, show: true },
           
             { title: "Service Selector", id: 12, show: true },
@@ -141,8 +141,14 @@ function WizardComponent() {
     setActiveStep(index);
     console.log("THIS IS CURRENT INDEX", index);
   }, [currentStepId, steps]);
+  React.useEffect(()=>{
+    console.log("THIS is active step",activeStep);
+    
+  },[activeStep])
   return (
     <Box sx={{ width: "100%" }}>
+      {/* {JSON.stringify(steps)} */}
+      {/* {activeStep} */}
       <Stepper
         sx={{
           p: 2,
@@ -185,27 +191,27 @@ function WizardComponent() {
             {/* TESTER COMPONENT */}
             {/* {currentStepId + "  " + activeStep} */}
             {/* {currentStepId === 1 ? <PaymentPage /> : null} */}
-            {currentStepId === 1 ? <PersonalInfo next={goToNextStep} /> : null}
+            {currentStepId === 1 ? <PersonalInfo next={()=>goToNextStep(activeStep)} /> : null}
             {currentStepId === 2 ? (
-              <KycVerificationPage next={goToNextStep} />
+              <KycVerificationPage next={()=>goToNextStep(activeStep)} />
             ) : null}
-            {currentStepId === 3 ? <ParentInfo next={goToNextStep} /> : null}
-            {currentStepId === 4 ? <AcademicInfo next={goToNextStep} /> : null}
+            {currentStepId === 3 ? <ParentInfo next={()=>goToNextStep(activeStep)} /> : null}
+            {currentStepId === 4 ? <AcademicInfo next={()=>goToNextStep(activeStep)} /> : null}
             {currentStepId === 5 ? (
-              <DocumentVerification next={goToNextStep} />
+              <DocumentVerification next={()=>goToNextStep(activeStep)} />
             ) : null}
             {currentStepId === 6 ? (
-              <RoomPreferenceV2 next={goToNextStep} />
+              <RoomPreferenceV2 next={()=>goToNextStep(activeStep)} />
             ) : null}
-            {currentStepId === 7 ? <PaymentPage next={goToNextStep} /> : null}
+            {currentStepId === 7 ? <PaymentPage next={()=>goToNextStep(activeStep)} /> : null}
             {currentStepId === 9 ? (
-              <RoomSelectionPage next={goToNextStep} />
+              <RoomSelectionPage next={()=>goToNextStep(activeStep)} />
             ) : null}
             {currentStepId === 10 ? (
-              <BankDetailsPage next={goToNextStep}></BankDetailsPage>
+              <BankDetailsPage next={()=>goToNextStep(activeStep)}></BankDetailsPage>
             ) : null}
                 {currentStepId === 12 ? (
-              <ServiceSelectorPage next={goToNextStep}></ServiceSelectorPage>
+              <ServiceSelectorPage next={()=>goToNextStep(activeStep)}></ServiceSelectorPage>
             ) : null}
             {currentStepId === 8 ? (
               <Box

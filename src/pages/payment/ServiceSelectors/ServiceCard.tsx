@@ -20,8 +20,8 @@ const useStyles = makeStyles({
   card: {
     width: 300,
     margin: 10,
-    border:"1px solid #1976d2",
-    borderRadius:19
+    border: "1px solid #1976d2",
+    borderRadius: 19,
   },
   serviceName: {
     fontSize: 18,
@@ -102,9 +102,7 @@ function ServiceCard({ service, pusher, masterServices }) {
             alignItems={"center"}
             justifyContent={"space-between"}
           >
-            <Typography variant="h6" >
-              {service.name}
-            </Typography>
+            <Typography variant="h6">{service.name}</Typography>
             <Radio
               color="success"
               checked={checkIfExist()}
@@ -122,16 +120,17 @@ function ServiceCard({ service, pusher, masterServices }) {
                 Service ID: {service.service_id}
               </Typography> */}
           {/* <Divider sx={{mb:5}}></Divider> */}
-        
-          <Stack mt={2} spacing={0.5} gap={1} >
+
+          <Stack mt={2} spacing={0.5} gap={1}>
             {service?.services?.map((item) => {
               return <Chip variant="outlined" label={item} />;
             })}
-       
           </Stack>
         </CardContent>
       </CardActionArea>
-      <CardActions>
+      <CardActions
+      
+      >
         {/* {!checkIfExist() ? (
             <Button
               // className={classes.addButton}

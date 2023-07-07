@@ -34,6 +34,16 @@ function ParentInfoForm({ next }: Props) {
       guardianPin: "",
     },
   });
+  function onSubmit(data: any) {
+    console.log(data);
+    setParentInfo(data);
+    next();
+  }
+  const handleNextClicked = () => {
+    console.log("Iam clicked from personalInfoForm");
+
+    handleSubmit(onSubmit)();
+  };
   useEffect(() => {
     getParentInfo().then((parentInfo) => {
       console.log(parentInfo);
@@ -46,22 +56,15 @@ function ParentInfoForm({ next }: Props) {
       setValue("guardianState", parentInfo.guardianState);
       setValue("guardianPin", parentInfo.guardianPin);
     });
+  },[]);
+  useEffect(() => {
     emitter.on("next-clicked", handleNextClicked);
     return () => {
       console.log("unMounted");
       emitter.off("next-clicked", handleNextClicked);
     };
-  });
-  function onSubmit(data: any) {
-    console.log(data);
-    setParentInfo(data);
-    next();
-  }
-  const handleNextClicked = () => {
-    console.log("Iam clicked from personalInfoForm");
-
-    handleSubmit(onSubmit)();
-  };
+  }, [handleNextClicked]);
+ 
 
   return (
     <form autoComplete="off" onSubmit={handleSubmit(onSubmit)}>
@@ -117,7 +120,7 @@ function ParentInfoForm({ next }: Props) {
               control={control}
               rules={{ required: true }}
               render={({ field }) => (
-                <FormControl  fullWidth variant="outlined">
+                <FormControl fullWidth variant="outlined">
                   <InputLabel id="demo-simple-select-label">
                     Relation
                   </InputLabel>

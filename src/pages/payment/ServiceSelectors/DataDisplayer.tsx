@@ -25,9 +25,9 @@ const ResultCard = ({ saleItemName, feeItems }) => {
             <TableHead>
               <TableRow>
                 <TableCell>Item</TableCell>
-                {/* <TableCell align="right">Basic</TableCell> */}
-                {/* <TableCell align="right">CGST</TableCell>
-                <TableCell align="right">SGST</TableCell> */}
+                <TableCell align="right">Basic</TableCell>
+                <TableCell align="right">CGST</TableCell>
+                <TableCell align="right">SGST</TableCell>
                 <TableCell align="right">Total</TableCell>
               </TableRow>
             </TableHead>
@@ -35,9 +35,9 @@ const ResultCard = ({ saleItemName, feeItems }) => {
               {feeItems.map((item, index) => (
                 <TableRow key={index}>
                   <TableCell>{item.feeItemName}</TableCell>
-                  {/* <TableCell align="right">{item.basic}</TableCell> */}
-                  {/* <TableCell align="right">{item.cgst}</TableCell>
-                  <TableCell align="right">{item.sgst}</TableCell> */}
+                  <TableCell align="right">{item.basic}</TableCell>
+                  <TableCell align="right">{item.cgst}</TableCell>
+                  <TableCell align="right">{item.sgst}</TableCell>
                   <TableCell align="right">{item.total}</TableCell>
                 </TableRow>
               ))}
@@ -73,8 +73,8 @@ const RoomCard = ({ saleItemName, roomTypeName, feeItems }) => {
               <TableRow>
                 <TableCell>Item</TableCell>
                 <TableCell align="right">Basic</TableCell>
-                {/* <TableCell align="right">CGST</TableCell>
-                <TableCell align="right">SGST</TableCell> */}
+                <TableCell align="right">CGST</TableCell>
+                <TableCell align="right">SGST</TableCell>
                 <TableCell align="right">Total</TableCell>
               </TableRow>
             </TableHead>
@@ -83,8 +83,8 @@ const RoomCard = ({ saleItemName, roomTypeName, feeItems }) => {
                 <TableRow key={index}>
                   <TableCell>{item.feeItemName}</TableCell>
                   <TableCell align="right">₹ {item.basic} </TableCell>
-                  {/* <TableCell align="right">{item.cgst}</TableCell>
-                  <TableCell align="right">{item.sgst}</TableCell> */}
+                  <TableCell align="right">{item.cgst}</TableCell>
+                  <TableCell align="right">{item.sgst}</TableCell>
                   <TableCell align="right">₹ {item.total}</TableCell>
                 </TableRow>
               ))}
