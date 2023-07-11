@@ -1,3 +1,5 @@
+/* eslint-disable prettier/prettier */
+/* eslint-disable no-nested-ternary */
 import { KeyboardArrowLeft, KeyboardArrowRight } from "@mui/icons-material";
 import { Button, MobileStepper, Typography } from "@mui/material";
 import Box from "@mui/material/Box";
@@ -8,10 +10,7 @@ import * as React from "react";
 import Scrollbars from "react-custom-scrollbars-2";
 import { useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
-import {
-  GetCurrentStatus,
-  GetCurrentStep
-} from "../../api/APIS/wizard-api";
+import { GetCurrentStatus, GetCurrentStep } from "../../api/APIS/wizard-api";
 import {
   setCurrentStatus,
   setWizardStep,
@@ -75,6 +74,48 @@ function WizardComponent() {
             { title: "Document Verification", id: 5, show: true },
             { title: "Sign Contract", id: 8, show: true },
           ]
+        : collegeUrl == "jgu"
+        ? [
+            { title: "Personal Info", id: 1, show: true },
+            { title: "Kyc Verification", id: 2, show: false },
+            { title: "Parent Info", id: 3, show: true },
+            { title: "Academic Info", id: 4, show: true },
+            { title: "Bank Details", id: 10, show: true },
+            { title: "Document Verification", id: 5, show: true },
+            { title: "Room Preference", id: 6, show: true },
+
+            { title: "Service Selector", id: 12, show: false },
+            { title: "Fee Payment", id: 7, show: true },
+            { title: "Sign Contract", id: 8, show: true },
+          ]
+        : collegeUrl == "muj"
+        ? [
+            { title: "Personal Info", id: 1, show: true },
+            { title: "Kyc Verification", id: 2, show: false },
+            { title: "Parent Info", id: 3, show: true },
+            { title: "Academic Info", id: 4, show: true },
+            { title: "Bank Details", id: 10, show: true },
+            { title: "Document Verification", id: 5, show: true },
+            { title: "Room Preference", id: 6, show: true },
+            { title: "Service Selector", id: 12, show: true },
+            { title: "Fee Payment", id: 7, show: true },
+            { title: "Room Selection", id: 9, show: true },
+            { title: "Sign Contract", id: 8, show: true },
+          ]
+        : collegeUrl == "shu"
+        ? [
+            { title: "Personal Info", id: 1, show: true },
+            { title: "Kyc Verification", id: 2, show: false },
+            { title: "Parent Info", id: 3, show: true },
+            { title: "Academic Info", id: 4, show: true },
+            { title: "Bank Details", id: 10, show: true },
+            { title: "Document Verification", id: 5, show: true },
+            { title: "Room Preference", id: 6, show: true },
+            { title: "Service Selector", id: 12, show: true },
+            { title: "Fee Payment", id: 7, show: true },
+            { title: "Room Selection", id: 9, show: true },
+            { title: "Sign Contract", id: 8, show: true },
+          ]
         : [
             { title: "Personal Info", id: 1, show: true },
             { title: "Kyc Verification", id: 2, show: false },
@@ -83,7 +124,7 @@ function WizardComponent() {
             { title: "Bank Details", id: 10, show: true },
             { title: "Document Verification", id: 5, show: true },
             { title: "Room Preference", id: 6, show: true },
-          
+
             { title: "Service Selector", id: 12, show: true },
             { title: "Fee Payment", id: 7, show: true },
             { title: "Sign Contract", id: 8, show: true },
@@ -141,10 +182,9 @@ function WizardComponent() {
     setActiveStep(index);
     console.log("THIS IS CURRENT INDEX", index);
   }, [currentStepId, steps]);
-  React.useEffect(()=>{
-    console.log("THIS is active step",activeStep);
-    
-  },[activeStep])
+  React.useEffect(() => {
+    console.log("THIS is active step", activeStep);
+  }, [activeStep]);
   return (
     <Box sx={{ width: "100%" }}>
       {/* {JSON.stringify(steps)} */}
@@ -191,27 +231,39 @@ function WizardComponent() {
             {/* TESTER COMPONENT */}
             {/* {currentStepId + "  " + activeStep} */}
             {/* {currentStepId === 1 ? <PaymentPage /> : null} */}
-            {currentStepId === 1 ? <PersonalInfo next={()=>goToNextStep(activeStep)} /> : null}
-            {currentStepId === 2 ? (
-              <KycVerificationPage next={()=>goToNextStep(activeStep)} />
+            {currentStepId === 1 ? (
+              <PersonalInfo next={() => goToNextStep(activeStep)} />
             ) : null}
-            {currentStepId === 3 ? <ParentInfo next={()=>goToNextStep(activeStep)} /> : null}
-            {currentStepId === 4 ? <AcademicInfo next={()=>goToNextStep(activeStep)} /> : null}
+            {currentStepId === 2 ? (
+              <KycVerificationPage next={() => goToNextStep(activeStep)} />
+            ) : null}
+            {currentStepId === 3 ? (
+              <ParentInfo next={() => goToNextStep(activeStep)} />
+            ) : null}
+            {currentStepId === 4 ? (
+              <AcademicInfo next={() => goToNextStep(activeStep)} />
+            ) : null}
             {currentStepId === 5 ? (
-              <DocumentVerification next={()=>goToNextStep(activeStep)} />
+              <DocumentVerification next={() => goToNextStep(activeStep)} />
             ) : null}
             {currentStepId === 6 ? (
-              <RoomPreferenceV2 next={()=>goToNextStep(activeStep)} />
+              <RoomPreferenceV2 next={() => goToNextStep(activeStep)} />
             ) : null}
-            {currentStepId === 7 ? <PaymentPage next={()=>goToNextStep(activeStep)} /> : null}
+            {currentStepId === 7 ? (
+              <PaymentPage next={() => goToNextStep(activeStep)} />
+            ) : null}
             {currentStepId === 9 ? (
-              <RoomSelectionPage next={()=>goToNextStep(activeStep)} />
+              <RoomSelectionPage next={() => goToNextStep(activeStep)} />
             ) : null}
             {currentStepId === 10 ? (
-              <BankDetailsPage next={()=>goToNextStep(activeStep)}></BankDetailsPage>
+              <BankDetailsPage
+                next={() => goToNextStep(activeStep)}
+              ></BankDetailsPage>
             ) : null}
-                {currentStepId === 12 ? (
-              <ServiceSelectorPage next={()=>goToNextStep(activeStep)}></ServiceSelectorPage>
+            {currentStepId === 12 ? (
+              <ServiceSelectorPage
+                next={() => goToNextStep(activeStep)}
+              ></ServiceSelectorPage>
             ) : null}
             {currentStepId === 8 ? (
               <Box

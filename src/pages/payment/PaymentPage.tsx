@@ -99,9 +99,9 @@ function PaymentPage({ next }: Props) {
     const extraNumber = Number(extra);
     const proRataNumber = Number(proRata);
     // console.log(originalPriceNumber,extraNumber,proRataNumber);
-    
+
     const totalAmount = originalPriceNumber + extraNumber + proRataNumber;
-  
+
     setTotalAmount(totalAmount.toFixed(2));
   }, [originalPrice, extra, proRata]);
   const {
@@ -127,28 +127,31 @@ function PaymentPage({ next }: Props) {
       setOriginalPrice(result.totalAmount);
       setOriginalInfo(result);
     });
-    getTotalSaleItemsBreakdown().then(({ result }) => {
-      setData(result);
-      setOriginalData(result);
-      const feeItemsArray = result.room[0].feeItems;
-      let extraCharges = 0;
-      let payment = {};
-      feeItemsArray.forEach((item) => {
-        if (
-          item.feeItemName != "Processing Fee" &&
-          item.feeItemName != "Deposit"
-        ) {
-          payment = item;
-        } else {
-          extraCharges += item.total;
-        }
+    setTimeout(() => {
+      getTotalSaleItemsBreakdown().then(({ result }) => {
+        setData(result);
+        setOriginalData(result);
+        const feeItemsArray = result.room[0].feeItems;
+        let extraCharges = 0;
+        let payment = {};
+        feeItemsArray.forEach((item) => {
+          if (
+            item.feeItemName != "Processing Fee" &&
+            item.feeItemName != "Deposit"
+          ) {
+            payment = item;
+          } else {
+            extraCharges += item.total;
+          }
+        });
+        setExtra(extraCharges);
+        console.log(payment);
+        const monthlyCharge = payment.total;
+        const actualAmount = monthlyCharge * 3;
+        setActualBasic(actualAmount);
       });
-      setExtra(extraCharges);
-      console.log(payment);
-      const monthlyCharge = payment.total;
-      const actualAmount = monthlyCharge * 3;
-      setActualBasic(actualAmount);
-    });
+    }, 400);
+
     fetchPaymentHistory();
   }, [apiTrigger]);
   useEffect(() => {
@@ -438,12 +441,11 @@ function PaymentPage({ next }: Props) {
   };
   return (
     <Container>
-   
       {/* <ServiceSelector
         masterServices={services}
         masterServiceSetter={setServices}
       /> */}
-  
+
       {/* <Typography variant="body1" color="initial">
         Check In Date
       </Typography>
@@ -491,14 +493,14 @@ function PaymentPage({ next }: Props) {
                 Processing Fee : 0 INR
               </Typography> */}
               <Typography variant="body1" gutterBottom>
-                  SGST : {paymentInfo?.sgst} INR
-                </Typography>
-                <Typography variant="body1" gutterBottom>
-                  CGST : {paymentInfo?.cgst} INR 
-                </Typography>
+                SGST : {paymentInfo?.sgst} INR
+              </Typography>
+              <Typography variant="body1" gutterBottom>
+                CGST : {paymentInfo?.cgst} INR
+              </Typography>
               {/* <Typography variant="body1" gutterBottom>
                 Pro Rata Rental (Check-In) : {proRata} INR */}
-                {/* {(
+              {/* {(
                   paymentInfo?.pendingAmount - originalInfo?.pendingAmount
                 ).toFixed(2)} */}
               {/* </Typography> */}
@@ -518,37 +520,37 @@ function PaymentPage({ next }: Props) {
             </Grid>
             <DataDisplayer />
             <Grid container spacing={2}>
-            {paymentInfo?.hostelName ? (
-        <>
-          <Grid item xs={12}>
-            <Typography variant="h5" component="div" gutterBottom>
-              Room Details
-            </Typography>
-          </Grid>{" "}
-          <Grid item xs={12} sm={6}>
-            <Typography variant="body1" gutterBottom>
-              Hostel Name: {paymentInfo?.hostelName}
-            </Typography>
-            <Typography variant="body1" gutterBottom>
-              Block Name: {paymentInfo?.blockName}
-            </Typography>
-            <Typography variant="body1" gutterBottom>
-              Floor Name: {paymentInfo?.floorName}
-            </Typography>
-            <Typography variant="body1" gutterBottom>
-              Room Name: {paymentInfo?.roomName}
-            </Typography>
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <Typography variant="body1" gutterBottom>
-              Room Type: {paymentInfo?.roomType}
-            </Typography>
-            <Typography variant="body1" gutterBottom>
-              Attributes: {paymentInfo?.attributes?.join(", ")}
-            </Typography>
-          </Grid>
-        </>
-      ) : null}
+              {paymentInfo?.hostelName ? (
+                <>
+                  <Grid item xs={12}>
+                    <Typography variant="h5" component="div" gutterBottom>
+                      Room Details
+                    </Typography>
+                  </Grid>{" "}
+                  <Grid item xs={12} sm={6}>
+                    <Typography variant="body1" gutterBottom>
+                      Hostel Name: {paymentInfo?.hostelName}
+                    </Typography>
+                    <Typography variant="body1" gutterBottom>
+                      Block Name: {paymentInfo?.blockName}
+                    </Typography>
+                    <Typography variant="body1" gutterBottom>
+                      Floor Name: {paymentInfo?.floorName}
+                    </Typography>
+                    <Typography variant="body1" gutterBottom>
+                      Room Name: {paymentInfo?.roomName}
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <Typography variant="body1" gutterBottom>
+                      Room Type: {paymentInfo?.roomType}
+                    </Typography>
+                    <Typography variant="body1" gutterBottom>
+                      Attributes: {paymentInfo?.attributes?.join(", ")}
+                    </Typography>
+                  </Grid>
+                </>
+              ) : null}
               <Divider />
               <Grid item xs={12}></Grid>
               {/* <Grid item xs={12} sm={6}>
@@ -585,7 +587,7 @@ function PaymentPage({ next }: Props) {
                   <Typography variant="h4">
                     {/* {paymentInfo?.pendingAmount} INR
                      */}
-                     {paymentInfo?.pendingAmount}  INR
+                    {paymentInfo?.pendingAmount} INR
                   </Typography>
                 </Stack>
               </Stack>

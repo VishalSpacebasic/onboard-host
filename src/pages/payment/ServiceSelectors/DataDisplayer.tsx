@@ -65,7 +65,7 @@ const RoomCard = ({ saleItemName, roomTypeName, feeItems }) => {
           {/* {saleItemName} */}
         </Typography>
         <Typography variant="h6" gutterBottom>
-          <span style={{fontWeight:"bold"}}> Room Type:</span> {roomTypeName}
+          <span style={{ fontWeight: "bold" }}> Room Type:</span> {roomTypeName}
         </Typography>
         <TableContainer>
           <Table>
@@ -104,9 +104,11 @@ const RoomCard = ({ saleItemName, roomTypeName, feeItems }) => {
 function DataDisplayer() {
   const [data, setData] = useState();
   useEffect(() => {
-    getTotalSaleItemsBreakdown().then(({ result }) => {
-      setData(result);
-    });
+    setTimeout(() => {
+      getTotalSaleItemsBreakdown().then(({ result }) => {
+        setData(result);
+      });
+    }, 400);
   }, []);
   return (
     <div>
