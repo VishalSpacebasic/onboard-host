@@ -65,8 +65,36 @@ function FloorDisplay({ floor, selectRoom, roomSelection }: Props) {
                         {room.availability}/{room.totalOccupancy} Available
                       </Typography>
                     </Stack>
-                    {/* ... */}
-                    {/* Rest of your code for residents and tooltips */}
+                    <Stack minHeight={10} key={room.id}>
+                      {room?.residents?.map((resident, residentIndex) => {
+                        return (
+                          <Tooltip
+                            key={resident.id}
+                            title={
+                              <div>
+                                <Typography>{resident.first_name}</Typography>
+                                <Typography>
+                                  City : {resident.city || "N/A"}
+                                </Typography>
+                                <Typography>
+                                  Course : {resident.course_name || "N/A"}
+                                </Typography>
+                                <Typography>
+                                  Stream : {resident.stream_name || "N/A"}
+                                </Typography>
+                              </div>
+                            }
+                            open={tooltipOpenArray[residentIndex]}
+                            onOpen={() => handleTooltipOpen(residentIndex)}
+                            onClose={() => handleTooltipClose(residentIndex)}
+                          >
+                            <Button variant="outlined">
+                              <PersonIcon /> {resident?.first_name}
+                            </Button>
+                          </Tooltip>
+                        );
+                      })}
+                    </Stack>
                   </Stack>
                 </Button>
               );
