@@ -121,12 +121,12 @@ function LoginByAppId() {
                 name="applicationId"
                 control={control}
                 rules={{
-                  required: "Application Id is erquired",
+                  required: "Application Id is required",
                 }}
                 render={({ field }) => (
                   <TextField
                     {...field}
-                    label="Application Id"
+                    label="Registration Number "
                     variant="outlined"
                     fullWidth
                     disabled={otpSent}

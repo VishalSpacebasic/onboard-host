@@ -32,26 +32,29 @@ function AcademicInfo({ next }: Props) {
     padding: 10,
   });
   function handleNextClick() {
-    console.log("THIS IS SELCTIOn", selection);
-    if (selection?.courseId == null) {
-      toast("Please select a course", { type: "error" });
-      return 0;
-    }
-    if (selection?.streamId == null) {
-      toast("Please select a stream", { type: "error" });
-      return 0;
-    }
-    // // console.log(selection.academicYearId)
-    // if (!selection?.academicYearId) {
-    //   toast("Please select your accademic year", { type: "error" });
+
+    next();
+
+    // console.log("THIS IS SELCTIOn", selection);
+    // if (selection?.courseId == null) {
+    //   toast("Please select a course", { type: "error" });
     //   return 0;
     // }
-    setAcademicInfo(selection)
-      .then(({ data }) => {
-        console.log("THiS ISapi response", data);
-        next();
-      })
-      .catch((err) => console.log(err));
+    // if (selection?.streamId == null) {
+    //   toast("Please select a stream", { type: "error" });
+    //   return 0;
+    // }
+    // // // console.log(selection.academicYearId)
+    // // if (!selection?.academicYearId) {
+    // //   toast("Please select your accademic year", { type: "error" });
+    // //   return 0;
+    // // }
+    // setAcademicInfo(selection)
+    //   .then(({ data }) => {
+    //     console.log("THiS ISapi response", data);
+    //     next();
+    //   })
+    //   .catch((err) => console.log(err));
   }
   useEffect(() => {
     getAcademicDropDown().then(({ data }) => {
@@ -88,6 +91,7 @@ function AcademicInfo({ next }: Props) {
   };
   return (
     <Container maxWidth="lg">
+        <Typography variant="body1" color="GrayText">*The above information is prefilled. Should there be any changes, please connect with Hostel administration once you reach our campus.</Typography>
       <Grid container spacing={6} justifyContent="center">
         <Grid item md={4}>
           <Paper
@@ -100,7 +104,7 @@ function AcademicInfo({ next }: Props) {
           >
             <StyledHeading variant="body1">
               {" "}
-              Please select your course
+              Your Course
             </StyledHeading>
             {/* <Stack
               sx={{
@@ -121,7 +125,7 @@ function AcademicInfo({ next }: Props) {
               {dropdownItems?.courses?.map((item, index) => {
                 return (
                   <Button
-                    onClick={() => handleCourseSelection(item)}
+                    // onClick={() => handleCourseSelection(item)}
                     sx={{
                       borderRadius: 0,
                     }}
@@ -149,7 +153,7 @@ function AcademicInfo({ next }: Props) {
               borderRadius: 3,
             }}
           >
-            <StyledHeading>Please select your stream</StyledHeading>
+            <StyledHeading>Your Stream</StyledHeading>
             <Scrollbars
               style={{
                 width: "100%",
@@ -164,14 +168,14 @@ function AcademicInfo({ next }: Props) {
                     sx={{
                       borderRadius: 0,
                     }}
-                    onClick={() =>
-                      currentStatus === 2
-                        ? setSelection({
-                            ...selection,
-                            streamId: item.streamId,
-                          })
-                        : null
-                    }
+                    // onClick={() =>
+                    //   currentStatus === 2
+                    //     ? setSelection({
+                    //         ...selection,
+                    //         streamId: item.streamId,
+                    //       })
+                    //     : null
+                    // }
                     fullWidth
                     key={item.streamId}
                     variant={
@@ -198,7 +202,7 @@ function AcademicInfo({ next }: Props) {
           >
             <StyledHeading variant="body1">
               {" "}
-              Please select your academic year
+              Your Academic Year
             </StyledHeading>
             <Scrollbars
               style={{
@@ -214,14 +218,14 @@ function AcademicInfo({ next }: Props) {
                     sx={{
                       borderRadius: 0,
                     }}
-                    onClick={() =>
-                      currentStatus === 2
-                        ? setSelection({
-                            ...selection,
-                            batchId: item.academicYearId,
-                          })
-                        : null
-                    }
+                    // onClick={() =>
+                    //   currentStatus === 2
+                    //     ? setSelection({
+                    //         ...selection,
+                    //         batchId: item.academicYearId,
+                    //       })
+                    //     : null
+                    // }
                     fullWidth
                     key={item.academicYearId}
                     variant={

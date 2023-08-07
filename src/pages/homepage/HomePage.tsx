@@ -31,7 +31,7 @@ function HomePage() {
   const [logo, setLogo] = useState("");
   const navigate = useNavigate();
   const [newUser, setNewUser] = useState(true);
-  const [tab, setTab] = useState("1");
+  const [tab, setTab] = useState("2");
   const handleTabChange = (event: React.SyntheticEvent, newValue: string) => {
     setTab(newValue);
   };
@@ -107,19 +107,19 @@ function HomePage() {
               elevation={5}
             >
               <TabContext value={tab}>
-                <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+                {/* <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
                   <TabList
                     variant="fullWidth"
                     onChange={handleTabChange}
                     aria-label="lab API tabs example"
                   >
                     <Tab label="NEW APPLICANT" value="1" />
-                    <Tab label="EXISTING APPLICANT" value="2" />
+                    <Tab label="Please Login With your ergistered" value="2" />
                   </TabList>
-                </Box>
-                <TabPanel value="1">
+                </Box> */}
+                {/* <TabPanel value="1">
                   <LoginComponent setNewUser={setNewUser} />
-                </TabPanel>
+                </TabPanel> */}
                 <TabPanel value="2">
                   <LoginByAppId />
                 </TabPanel>

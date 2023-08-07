@@ -25,9 +25,9 @@ const ResultCard = ({ saleItemName, feeItems }) => {
             <TableHead>
               <TableRow>
                 <TableCell>Item</TableCell>
-                {/* <TableCell align="right">Basic</TableCell> */}
-                {/* <TableCell align="right">CGST</TableCell>
-                <TableCell align="right">SGST</TableCell> */}
+                <TableCell align="right">Basic</TableCell>
+                <TableCell align="right">CGST</TableCell>
+                <TableCell align="right">SGST</TableCell>
                 <TableCell align="right">Total</TableCell>
               </TableRow>
             </TableHead>
@@ -35,9 +35,9 @@ const ResultCard = ({ saleItemName, feeItems }) => {
               {feeItems.map((item, index) => (
                 <TableRow key={index}>
                   <TableCell>{item.feeItemName}</TableCell>
-                  {/* <TableCell align="right">{item.basic}</TableCell> */}
-                  {/* <TableCell align="right">{item.cgst}</TableCell>
-                  <TableCell align="right">{item.sgst}</TableCell> */}
+                  <TableCell align="right">{item.basic}</TableCell>
+                  <TableCell align="right">{item.cgst}</TableCell>
+                  <TableCell align="right">{item.sgst}</TableCell>
                   <TableCell align="right">{item.total}</TableCell>
                 </TableRow>
               ))}
@@ -62,10 +62,10 @@ const RoomCard = ({ saleItemName, roomTypeName, feeItems }) => {
     <Card variant="outlined" style={{ marginBottom: "16px" }}>
       <CardContent>
         <Typography variant="h6" gutterBottom>
-          {saleItemName}
+          {/* {saleItemName} */}
         </Typography>
         <Typography variant="h6" gutterBottom>
-          Room Type: {roomTypeName}
+          <span style={{ fontWeight: "bold" }}> Room Type:</span> {roomTypeName}
         </Typography>
         <TableContainer>
           <Table>
@@ -73,8 +73,8 @@ const RoomCard = ({ saleItemName, roomTypeName, feeItems }) => {
               <TableRow>
                 <TableCell>Item</TableCell>
                 <TableCell align="right">Basic</TableCell>
-                {/* <TableCell align="right">CGST</TableCell>
-                <TableCell align="right">SGST</TableCell> */}
+                <TableCell align="right">CGST</TableCell>
+                <TableCell align="right">SGST</TableCell>
                 <TableCell align="right">Total</TableCell>
               </TableRow>
             </TableHead>
@@ -82,18 +82,18 @@ const RoomCard = ({ saleItemName, roomTypeName, feeItems }) => {
               {feeItems.map((item, index) => (
                 <TableRow key={index}>
                   <TableCell>{item.feeItemName}</TableCell>
-                  <TableCell align="right">{item.basic}</TableCell>
-                  {/* <TableCell align="right">{item.cgst}</TableCell>
-                  <TableCell align="right">{item.sgst}</TableCell> */}
-                  <TableCell align="right">{item.total}</TableCell>
+                  <TableCell align="right">₹ {item.basic} </TableCell>
+                  <TableCell align="right">{item.cgst}</TableCell>
+                  <TableCell align="right">{item.sgst}</TableCell>
+                  <TableCell align="right">₹ {item.total}</TableCell>
                 </TableRow>
               ))}
-              <TableRow>
+              {/* <TableRow>
                 <TableCell colSpan={4} align="right">
                   Total:
                 </TableCell>
                 <TableCell align="right">{total}</TableCell>
-              </TableRow>
+              </TableRow> */}
             </TableBody>
           </Table>
         </TableContainer>
@@ -104,9 +104,11 @@ const RoomCard = ({ saleItemName, roomTypeName, feeItems }) => {
 function DataDisplayer() {
   const [data, setData] = useState();
   useEffect(() => {
-    getTotalSaleItemsBreakdown().then(({ result }) => {
-      setData(result);
-    });
+    setTimeout(() => {
+      getTotalSaleItemsBreakdown().then(({ result }) => {
+        setData(result);
+      });
+    }, 400);
   }, []);
   return (
     <div>

@@ -8,6 +8,7 @@ type Props = { next };
 function ParentInfo({ next }: Props) {
   return (
     <Container maxWidth="lg">
+        <Typography variant="body1" color="GrayText">*The above information is prefilled. Should there be any changes, please connect with Hostel administration once you reach our campus.</Typography>
       <Paper
         sx={{
           mt: 5,

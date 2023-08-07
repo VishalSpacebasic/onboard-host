@@ -99,3 +99,7 @@ export const setProfileImage=async (data)=>{
   const result = await axiosInstance.post(`${v3Url}/profilePicture`,data);
   return result.data;
 }
+export const roomSelectionMuj=async (data)=>{
+  const result = await axiosInstance.post(`${v3Url}/mujonboard`,data);
+  return result.data;
+}

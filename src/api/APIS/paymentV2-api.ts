@@ -24,7 +24,15 @@ export const setServicesSaleItems = async (payload) => {
   return result.data;
 };
 
-export const getTotalSaleItemsBreakdown = async (payload) => {
+export const getTotalSaleItemsBreakdown = async () => {
   const result = await axiosInstance.get(`${v3Url}/get-sale-item-breakup`);
+  return result.data;
+};
+export const getFeeItemsFromSaleItems = async (saleItemId) => {
+  const result = await axiosInstance.get(
+    `/api/v3/onboarding/v2/payment/saleItem/details?tenantId=${sessionStorage.getItem(
+      "collegeId"
+    )}&saleItemId=${saleItemId}`
+  );
   return result.data;
 };

@@ -34,6 +34,16 @@ function ParentInfoForm({ next }: Props) {
       guardianPin: "",
     },
   });
+  function onSubmit(data: any) {
+    console.log(data);
+    setParentInfo(data);
+    next();
+  }
+  const handleNextClicked = () => {
+    console.log("Iam clicked from personalInfoForm");
+
+    handleSubmit(onSubmit)();
+  };
   useEffect(() => {
     getParentInfo().then((parentInfo) => {
       console.log(parentInfo);
@@ -46,32 +56,25 @@ function ParentInfoForm({ next }: Props) {
       setValue("guardianState", parentInfo.guardianState);
       setValue("guardianPin", parentInfo.guardianPin);
     });
+  },[]);
+  useEffect(() => {
     emitter.on("next-clicked", handleNextClicked);
     return () => {
       console.log("unMounted");
       emitter.off("next-clicked", handleNextClicked);
     };
-  });
-  function onSubmit(data: any) {
-    console.log(data);
-    setParentInfo(data);
-    next();
-  }
-  const handleNextClicked = () => {
-    console.log("Iam clicked from personalInfoForm");
-
-    handleSubmit(onSubmit)();
-  };
+  }, [handleNextClicked]);
+ 
 
   return (
     <form autoComplete="off" onSubmit={handleSubmit(onSubmit)}>
-      <fieldset style={{ border: "none" }} disabled={currentStatus !== 2}>
+      <fieldset style={{ border: "none" }} disabled={true}>
         <Grid mt={1} justifyContent="space-between" spacing={3} container>
           <Grid item xs={12} sm={6} md={6} lg={6}>
             <Controller
               name="guardianName"
               control={control}
-              rules={{ required: true }}
+              // rules={{ required: true }}
               render={({ field }) => (
                 <TextField
                   id="guardianName"
@@ -92,7 +95,7 @@ function ParentInfoForm({ next }: Props) {
               name="guardianPhone"
               control={control}
               rules={{
-                required: "Phone number is required",
+                // required: "Phone number is required",
                 pattern: {
                   value: /^[0-9]{10}$/i,
                   message: "Invalid phone number",
@@ -115,15 +118,16 @@ function ParentInfoForm({ next }: Props) {
             <Controller
               name="guardianRelation"
               control={control}
-              rules={{ required: true }}
+              // rules={{ required: true }}
               render={({ field }) => (
-                <FormControl  fullWidth variant="outlined">
+                <FormControl fullWidth variant="outlined">
                   <InputLabel id="demo-simple-select-label">
                     Relation
                   </InputLabel>
                   <Select
                     labelId="guardian-relation-label"
                     id="guardian-relation"
+                    disabled
                     label="Relation"
                     placeholder="Please select relation"
                     error={!!errors.guardianRelation}
@@ -147,7 +151,7 @@ function ParentInfoForm({ next }: Props) {
               name="guardianEmail"
               control={control}
               rules={{
-                required: "Email is required",
+                // required: "Email is required",
                 pattern: {
                   value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/i,
                   message: "Invalid email address",
@@ -170,7 +174,7 @@ function ParentInfoForm({ next }: Props) {
             <Controller
               name="guardianAddress"
               control={control}
-              rules={{ required: true }}
+              // rules={{ required: true }}
               render={({ field }) => (
                 <TextField
                   id="guardianAddress"
@@ -190,7 +194,7 @@ function ParentInfoForm({ next }: Props) {
             <Controller
               name="guardianCity"
               control={control}
-              rules={{ required: true }}
+              // rules={{ required: true }}
               render={({ field }) => (
                 <TextField
                   id="guardianCity"
@@ -210,7 +214,7 @@ function ParentInfoForm({ next }: Props) {
             <Controller
               name="guardianPin"
               control={control}
-              rules={{ required: true }}
+              // rules={{ required: true }}
               render={({ field }) => (
                 <TextField
                   id="guardianPin"

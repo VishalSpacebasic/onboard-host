@@ -1,6 +1,6 @@
 import { Card, CardContent, Divider, Grid, Typography } from "@mui/material";
 import { Container, Stack } from "@mui/system";
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { getServices } from "../../api/APIS/wizard-api";
 import ServiceSelector from "../payment/ServiceSelectors/ServiceSelector";
 import {
@@ -17,13 +17,29 @@ function ServiceSelectorPage({ next }: Props) {
   const [services, setServices] = React.useState<any>([]);
   const [masterServices, masterServiceSetter] = React.useState<any>([]);
   const [preSelected, setPreselected] = useState();
+  const [serviceIds, setServiceIds] = useState([]);
   const [total, setTotal] = React.useState({
     cgst: 0,
     sgst: 0,
     total_price: 0,
     basic: 0,
   });
+  const handleNextClicked = () => {
+    // const serviceIds = masterServices.map((item) => item.id.toString());
+    console.log("Service ids", serviceIds);
 
+    setServicesSaleItems({
+      selectedServiceIds: serviceIds
+    }).then((result) => {
+      toast("items added");
+      next();
+    });
+    next();
+  };
+  useEffect(() => {
+    const serviceIds = masterServices.map((item) => item.id.toString());
+    setServiceIds(serviceIds);
+  }, [masterServices]);
   React.useEffect(() => {
     emitter.removeAllListeners("next-clicked");
     emitter.on("next-clicked", handleNextClicked);
@@ -31,17 +47,7 @@ function ServiceSelectorPage({ next }: Props) {
       console.log("unMounted");
       emitter.off("next-clicked", handleNextClicked);
     };
-  }, [total, masterServices]);
-  const handleNextClicked = () => {
-    const serviceIds = masterServices.map((item) => item.id.toString());
-    setServicesSaleItems({
-      selectedServiceIds: serviceIds?.length ? serviceIds : [],
-    }).then((result) => {
-      toast("items added");
-      next();
-    });
-    next();
-  };
+  }, [total, masterServices,serviceIds]);
 
   React.useEffect(() => {
     getServiceSaleItems().then(({ result, selected }) => {
@@ -103,16 +109,18 @@ function ServiceSelectorPage({ next }: Props) {
       {/* <Divider sx={{ mb: 2 }}></Divider> */}
       <Grid container>
         <Grid item sm={8}>
-          {services?.map((service) => {
-            return (
-              <ServiceCard
-                service={service}
-                pusher={addToMaster}
-                masterServices={masterServices}
-              />
-              // <>{JSON.stringify(service)}</>
-            );
-          })}
+          <Stack direction>
+            {services?.map((service) => {
+              return (
+                <ServiceCard
+                  service={service}
+                  pusher={addToMaster}
+                  masterServices={masterServices}
+                />
+                // <>{JSON.stringify(service)}</>
+              );
+            })}
+          </Stack>
         </Grid>
         <Grid item sm={4}>
           {masterServices.map((item) => {

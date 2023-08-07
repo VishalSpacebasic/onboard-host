@@ -10,7 +10,7 @@ import { Chip, Grid, Paper, Typography } from "@mui/material";
 import RoomSelectionDisplay from "../room-preference-v2/components/RoomSelectionDisplay";
 import emitter from "../../utils/EventEmiter";
 import { toast } from "react-toastify";
-import { getRoomAllocationStatus } from "../../api/APIS/wizard-api";
+import { getRoomAllocationStatus, roomSelectionMuj } from "../../api/APIS/wizard-api";
 import { getPaymentInfo } from "../../api/APIS/payment-routes";
 import { makeStyles } from "@mui/styles";
 
@@ -83,6 +83,7 @@ function RoomSelectionPage({ next }: Props) {
       toast("Room selected successfully");
       next();
     });
+   
   };
   return (
     <Container maxWidth="xl" mt={2}>

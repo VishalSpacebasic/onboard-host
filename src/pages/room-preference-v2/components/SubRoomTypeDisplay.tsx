@@ -109,7 +109,7 @@ function SubRoomTypeDisplay({
                     gap: 1,
                     rowGap: 1,
                     flexWrap: "wrap",
-                    minHeight: 60,
+                    // minHeight: 20,
                   }}
                 >
                   {subRoom.attributes.map((attr) => {
@@ -124,13 +124,13 @@ function SubRoomTypeDisplay({
                     );
                   })}
                 </Box>
-                <Typography
+                {/* <Typography
                   variant="body2"
                   sx={{ minHeight: 60 }}
                   color="text.secondary"
                 >
                   {subRoom.description}
-                </Typography>
+                </Typography> */}
                 {/* <Box>
                   {" "}
                   <Chip

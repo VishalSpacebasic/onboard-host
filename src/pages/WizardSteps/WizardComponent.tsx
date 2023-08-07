@@ -1,3 +1,5 @@
+/* eslint-disable prettier/prettier */
+/* eslint-disable no-nested-ternary */
 import { KeyboardArrowLeft, KeyboardArrowRight } from "@mui/icons-material";
 import { Button, MobileStepper, Typography } from "@mui/material";
 import Box from "@mui/material/Box";
@@ -8,10 +10,7 @@ import * as React from "react";
 import Scrollbars from "react-custom-scrollbars-2";
 import { useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
-import {
-  GetCurrentStatus,
-  GetCurrentStep
-} from "../../api/APIS/wizard-api";
+import { GetCurrentStatus, GetCurrentStep } from "../../api/APIS/wizard-api";
 import {
   setCurrentStatus,
   setWizardStep,
@@ -27,6 +26,7 @@ import PersonalInfo from "../personalinfo/PersonalInfo";
 import RoomPreferenceV2 from "../room-preference-v2/RoomPreferenceV2";
 import RoomSelectionPage from "../room-selection-page/RoomSelectionPage";
 import ServiceSelectorPage from "../service-selector/ServiceSelectorPage";
+import HealthInfoPage from "../health-info/HealthInfoPage";
 
 function WizardComponent() {
   const [activeStep, setActiveStep] = React.useState(0);
@@ -67,11 +67,48 @@ function WizardComponent() {
             { title: "Personal Info", id: 1, show: true },
             // { title: "Kyc Verification", id: 2, show: false },
             // { title: "Parent Info", id: 3, show: true },
-            // { title: "Academic Info", id: 4, show: true },
+            { title: "Academic Info", id: 4, show: true },
+            { title: "Room Preference", id: 6, show: true },
+            { title: "Room Selection", id: 9, show: true },
+            // { title: "Service Selector", id: 12, show: true },
+            { title: "Fee Payment", id: 7, show: true },
+            { title: "Document Verification", id: 5, show: true },
+            { title: "Sign Contract", id: 8, show: true },
+          ]
+        : collegeUrl == "jgu"
+        ? [
+            { title: "Personal Info", id: 1, show: true },
+            { title: "Kyc Verification", id: 2, show: false },
+            { title: "Parent Info", id: 3, show: true },
+            { title: "Academic Info", id: 4, show: true },
+            { title: "Bank Details", id: 10, show: true },
+            { title: "Document Verification", id: 5, show: true },
+            { title: "Room Preference", id: 6, show: true },
+
+            { title: "Service Selector", id: 12, show: false },
+            { title: "Fee Payment", id: 7, show: true },
+            { title: "Sign Contract", id: 8, show: true },
+          ]
+        : collegeUrl == "muj"
+        ? [
+            { title: "Personal Info", id: 1, show: true },
+            { title: "Kyc Verification", id: 2, show: false },
+            { title: "Parent Info", id: 3, show: true },
+            { title: "Academic Info", id: 4, show: true },
+            { title: "Room Preference", id: 6, show: true },
+          ]
+        : collegeUrl == "shu"
+        ? [
+            { title: "Personal Info", id: 1, show: true },
+            { title: "Kyc Verification", id: 2, show: false },
+            { title: "Parent Info", id: 3, show: true },
+            { title: "Academic Info", id: 4, show: true },
+            { title: "Bank Details", id: 10, show: true },
+            { title: "Document Verification", id: 5, show: true },
             { title: "Room Preference", id: 6, show: true },
             { title: "Service Selector", id: 12, show: true },
             { title: "Fee Payment", id: 7, show: true },
-            { title: "Document Verification", id: 5, show: true },
+            { title: "Room Selection", id: 9, show: true },
             { title: "Sign Contract", id: 8, show: true },
           ]
         : [
@@ -79,13 +116,8 @@ function WizardComponent() {
             { title: "Kyc Verification", id: 2, show: false },
             { title: "Parent Info", id: 3, show: true },
             { title: "Academic Info", id: 4, show: true },
-            // { title: "Bank Details", id: 10, show: true },
-            { title: "Document Verification", id: 5, show: true },
             { title: "Room Preference", id: 6, show: true },
-            { title: "Service Selector", id: 12, show: true },
-            { title: "Fee Payment", id: 7, show: true },
-            { title: "Room Selection", id: 9, show: true },
-            { title: "Sign Contract", id: 8, show: true },
+            { title: "Medical Records", id: 13, show: true },
           ];
     setsteps(result.filter((item) => item.show));
     initailizeCurentStep();
@@ -140,8 +172,13 @@ function WizardComponent() {
     setActiveStep(index);
     console.log("THIS IS CURRENT INDEX", index);
   }, [currentStepId, steps]);
+  React.useEffect(() => {
+    console.log("THIS is active step", activeStep);
+  }, [activeStep]);
   return (
     <Box sx={{ width: "100%" }}>
+      {/* {JSON.stringify(steps)} */}
+      {/* {activeStep} */}
       <Stepper
         sx={{
           p: 2,
@@ -184,28 +221,41 @@ function WizardComponent() {
             {/* TESTER COMPONENT */}
             {/* {currentStepId + "  " + activeStep} */}
             {/* {currentStepId === 1 ? <PaymentPage /> : null} */}
-            {currentStepId === 1 ? <PersonalInfo next={goToNextStep} /> : null}
-            {currentStepId === 2 ? (
-              <KycVerificationPage next={goToNextStep} />
+            {currentStepId === 1 ? (
+              <PersonalInfo next={() => goToNextStep(activeStep)} />
             ) : null}
-            {currentStepId === 3 ? <ParentInfo next={goToNextStep} /> : null}
-            {currentStepId === 4 ? <AcademicInfo next={goToNextStep} /> : null}
+            {currentStepId === 2 ? (
+              <KycVerificationPage next={() => goToNextStep(activeStep)} />
+            ) : null}
+            {currentStepId === 3 ? (
+              <ParentInfo next={() => goToNextStep(activeStep)} />
+            ) : null}
+            {currentStepId === 4 ? (
+              <AcademicInfo next={() => goToNextStep(activeStep)} />
+            ) : null}
             {currentStepId === 5 ? (
-              <DocumentVerification next={goToNextStep} />
+              <DocumentVerification next={() => goToNextStep(activeStep)} />
             ) : null}
             {currentStepId === 6 ? (
-              <RoomPreferenceV2 next={goToNextStep} />
+              <RoomPreferenceV2 next={() => goToNextStep(activeStep)} />
             ) : null}
-            {currentStepId === 7 ? <PaymentPage next={goToNextStep} /> : null}
+            {currentStepId === 7 ? (
+              <PaymentPage next={() => goToNextStep(activeStep)} />
+            ) : null}
             {currentStepId === 9 ? (
-              <RoomSelectionPage next={goToNextStep} />
+              <RoomSelectionPage next={() => goToNextStep(activeStep)} />
             ) : null}
             {currentStepId === 10 ? (
-              <BankDetailsPage next={goToNextStep}></BankDetailsPage>
+              <BankDetailsPage
+                next={() => goToNextStep(activeStep)}
+              ></BankDetailsPage>
             ) : null}
-                {currentStepId === 12 ? (
-              <ServiceSelectorPage next={goToNextStep}></ServiceSelectorPage>
+            {currentStepId === 12 ? (
+              <ServiceSelectorPage
+                next={() => goToNextStep(activeStep)}
+              ></ServiceSelectorPage>
             ) : null}
+            {currentStepId === 13 ? <HealthInfoPage next={() => goToNextStep(activeStep)} /> : null}
             {currentStepId === 8 ? (
               <Box
                 height="80vh"
