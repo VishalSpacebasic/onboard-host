@@ -57,7 +57,7 @@ function ThemeWrapper({}: Props) {
         pauseOnFocusLoss
         draggable
         // pauseOnHover
-        theme={darkMode ? "dark" : "light"}
+        theme={ "light"}
       />
       <CssBaseline>
         <App />

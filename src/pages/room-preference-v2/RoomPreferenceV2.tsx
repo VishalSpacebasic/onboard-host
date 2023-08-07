@@ -25,7 +25,7 @@ import {
   submitRoomSelection,
 } from "../../api/APIS/room-apis";
 import RoomSelectionDisplay from "./components/RoomSelectionDisplay";
-import { getRoomAllocationStatus } from "../../api/APIS/wizard-api";
+import { getRoomAllocationStatus, roomSelectionMuj } from "../../api/APIS/wizard-api";
 import { getPaymentInfo } from "../../api/APIS/payment-routes";
 import { useParams } from "react-router-dom";
 
@@ -52,6 +52,7 @@ function RoomPreferenceV2({ next }) {
   const [roomInfo, setRoomInfo] = useState<any>();
   const [roomSelected, setRoomSelected] = useState<any>(false);
   const { collegeUrl } = useParams();
+  const [saleItemId, setSaleItemId] = useState<any>(null);
   const useStyles = makeStyles((theme) => ({
     root: {
       display: "flex",
@@ -80,14 +81,26 @@ function RoomPreferenceV2({ next }) {
         console.log(selectedRoom);
         if (selectedRoom?.id) {
           const roomId = selectedRoom?.id;
-          submitRoomSelection({ room: roomId }).then((data) => {
-            setRoomSelected(!roomSelected);
-            if (data.result == 1) {
-            }
-          });
+          // submitRoomSelection({ room: roomId }).then((data) => {
+          //   setRoomSelected(!roomSelected);
+          //   if (data.result == 1) {
+          //   }
+          // });
+          roomSelectionMuj({ roomId })
+            .then((data) => {
+            toast("YOUR ROOM HAS BEEN ALLOTED SUCCESFULLY",{type:"success"})
+            setRoomPrefStat({ allotmentStatus: 2 });
+            getPaymentInfo().then(({ result }) => {
+              setRoomInfo(result);
+            });
+          }).catch((e)=>{
+            console.log(e);
+            
+            toast(e.response.data.message,{type:"error"})
+          })
           // next();
           // setRoomSelected(!roomSelected);
-          setRoomPrefStat({ allotmentStatus: 2 });
+         
         } else {
           toast("Please select a room to continue..");
         }
@@ -97,10 +110,15 @@ function RoomPreferenceV2({ next }) {
           toast("Please add atleast one room preference.");
           return;
         }
+        if (saleItemId == null) {
+          toast("The selected room price details not available");
+          return;
+        }
         const preferences = {
           roomPreference1: roomPreference[0]?.id,
           roomPreference2: roomPreference[1]?.id,
           roomPreference3: roomPreference[2]?.id,
+          saleItemId: saleItemId,
         };
         submitRoomSelection(preferences).then((data) => {
           console.log(data);
@@ -155,8 +173,14 @@ function RoomPreferenceV2({ next }) {
       console.log("unMounted");
       emitter.off("next-clicked", handleNextClicked);
     };
-  }, [selectedRoom, roomPreference, roomSelection, roomPrefStat, roomSelected]);
-
+  }, [
+    selectedRoom,
+    roomPreference,
+    roomSelection,
+    roomPrefStat,
+    roomSelected,
+    saleItemId,
+  ]);
 
   useEffect(() => {}, [mainRoomName]);
   const addRoomTypeToPreference = (subRoom: any) => {
@@ -220,7 +244,6 @@ function RoomPreferenceV2({ next }) {
         checked={roomSelection}
         onClick={() => setRoomSelection(!roomSelection)}
       /> */}
-
       {roomPrefStat.allotmentStatus == 0 ? (
         <Grid container>
           {!roomTypeForRooms ? (
@@ -274,6 +297,8 @@ function RoomPreferenceV2({ next }) {
                   <RoomPreferenceDisplay
                     addRoomTypeToPreference={addRoomTypeToPreference}
                     preferences={roomPreference}
+                    saleItemId={saleItemId}
+                    setSaleItemId={setSaleItemId}
                   />
                 ) : (
                   <RoomSelectionDisplay
@@ -304,10 +329,11 @@ function RoomPreferenceV2({ next }) {
                   <Stack direction spacing={2} gap={1} alignItems="end">
                     {" "}
                     <Typography color="green" variant="h5">
-                      Your room has been allocated!
+                    Alas! Its done.{"  "}
                     </Typography>
-                    <Typography variant="h5">
-                      Please proceed with the payment.
+                  
+                    <Typography variant="body1">
+                     In next 48 hours you will receive welcome email with login credentials from Spacebasic – An app to automate your everyday hostel tasks and communication{" "}
                     </Typography>
                   </Stack>
                 ) : null}
@@ -315,12 +341,14 @@ function RoomPreferenceV2({ next }) {
                   <Stack direction spacing={2} gap={2} alignItems="end">
                     {" "}
                     <Typography color="green" variant="h5">
-                      Success!
+                    Alas! Its done.{"  "}
                     </Typography>
-                    <Typography variant="h5">
-                      {" "}
-                      Your room has been reserved. {collegeUrl=='sunway'?" Please make the payment.":" and is awaiting approval from the hostel team."}
+                  
+                    <Typography variant="body1">
+                     In next 48 hours you will receive welcome email with login credentials from Spacebasic – An app to automate your everyday hostel tasks and communication{" "}
                     </Typography>
+                    <br/>
+                   
                   </Stack>
                 ) : null}
                 {roomPrefStat.allotmentStatus == 3 ? (
@@ -333,8 +361,7 @@ function RoomPreferenceV2({ next }) {
                       alignItems="center"
                     >
                       <Typography variant="h3" textAlign="center" color="grey">
-                        Your preference has been captured please make the
-                        payment.
+                        YOUR ROOM HAS BEEN ALLOTED PLEASE LOGIN TO SPACEBASIC
                       </Typography>
                     </Box>
                   </>
@@ -413,7 +440,7 @@ function RoomPreferenceV2({ next }) {
               alignItems="center"
             >
               <Typography variant="h3" textAlign="center" color="grey">
-                Your preference has been captured please make the payment .
+              Your Room Has Been Alloted Please Await Welcome Mail
               </Typography>
             </Box>
           )}

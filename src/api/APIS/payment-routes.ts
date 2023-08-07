@@ -9,9 +9,9 @@ export const getPaymentInfo = async () => {
   return data;
 };
 
-export const getRazorPayOrder = async () => {
+export const getRazorPayOrder = async (amount) => {
   const url = `${v3Url}/razorpay/order`;
-  const { data } = await axiosInstance.post(url);
+  const { data } = await axiosInstance.post(`${url}?amount=${amount}`);
   return data;
 };
 export const payOffline = async (payload: FormData) => {

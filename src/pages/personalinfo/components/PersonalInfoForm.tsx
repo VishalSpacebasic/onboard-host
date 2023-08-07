@@ -18,6 +18,7 @@ import { useSelector } from "react-redux";
 import { Stack } from "@mui/system";
 import emitter from "../../../utils/EventEmiter";
 import { getPersonalInfo, setPersonalInfo } from "../../../api/APIS/wizard-api";
+import ProfilePictureSelector from "./ProfilePictureSelector";
 
 function PersonalInfoForm({ next }: any) {
   const [prefil, setPrefil] = useState({});
@@ -84,138 +85,142 @@ function PersonalInfoForm({ next }: any) {
 
   return (
     <form autoComplete="off" onSubmit={handleSubmit(onSubmit)}>
-      <FormControl disabled>
-        <fieldset disabled={currentStatus !== 2} style={{ border: 0 }}>
-          <Grid justifyContent="space-between" spacing={3} container>
-            <Grid item sm={12} md={5} lg={6}>
-              <Controller
-                name="firstName"
-                control={control}
-                rules={{
-                  required: "This field is required",
-                  pattern: {
-                    value: /^[a-zA-Z]+$/,
-                    message: "Please enter valid first name",
-                  },
-                }}
-                render={({ field }) => (
-                  <TextField
-                    id="firstName"
-                    label="First Name"
-                    variant="outlined"
-                    fullWidth
-                    error={!!errors.firstName}
-                    helperText={errors.firstName?.message}
-                    {...field}
-                  />
-                )}
-              />
-            </Grid>
-            <Grid item sm={12} md={5} lg={6}>
-              <Controller
-                name="lastName"
-                control={control}
-                rules={{
-                  required: "This field is required",
-                  pattern: {
-                    value: /^[a-zA-Z]+$/,
-                    message: "Please enter valid first name",
-                  },
-                }}
-                render={({ field }) => (
-                  <TextField
-                    id="lastName"
-                    label="Last Name"
-                    variant="outlined"
-                    fullWidth
-                    error={!!errors.lastName}
-                    helperText={errors.lastName?.message}
-                    {...field}
-                  />
-                )}
-              />
-            </Grid>
+      <fieldset disabled={true}>
+        <FormControl disabled>
+          <fieldset style={{ border: 0 }}>
+            <Grid justifyContent="space-between" spacing={3} container>
+              <Grid item sm={12}>
+                {/* <ProfilePictureSelector />   */}
+              </Grid>
+              <Grid item sm={12} md={5} lg={6}>
+                <Controller
+                  name="firstName"
+                  control={control}
+                  rules={{
+                    // required: "This field is required",
+                    pattern: {
+                      value: /^[a-zA-Z]+$/,
+                      message: "Please enter valid first name",
+                    },
+                  }}
+                  render={({ field }) => (
+                    <TextField
+                      id="firstName"
+                      label="First Name"
+                      variant="outlined"
+                      fullWidth
+                      error={!!errors.firstName}
+                      helperText={errors.firstName?.message}
+                      {...field}
+                    />
+                  )}
+                />
+              </Grid>
+              <Grid item sm={12} md={5} lg={6}>
+                <Controller
+                  name="lastName"
+                  control={control}
+                  rules={{
+                    // required: "This field is required",
+                    pattern: {
+                      value: /^[a-zA-Z]+$/,
+                      message: "Please enter valid first name",
+                    },
+                  }}
+                  render={({ field }) => (
+                    <TextField
+                      id="lastName"
+                      label="Last Name"
+                      variant="outlined"
+                      fullWidth
+                      error={!!errors.lastName}
+                      helperText={errors.lastName?.message}
+                      {...field}
+                    />
+                  )}
+                />
+              </Grid>
 
-            <Grid item sm={12} md={5} lg={6}>
-              <Controller
-                name="dob"
-                control={control}
-                rules={{ required: true }}
-                render={({ field }) => (
-                  <TextField
-                    id="dateOfBirth"
-                    label="Date of Birth"
-                    type="date"
-                    variant="outlined"
-                    fullWidth
-                    InputLabelProps={{
-                      shrink: true,
-                    }}
-                    error={!!errors.dob}
-                    helperText={errors.dob && "Date of birth is required"}
-                    {...field}
-                  />
-                )}
-              />
-            </Grid>
-            <Grid item sm={12} md={5} lg={6}>
-              <Controller
-                name="gender"
-                control={control}
-                rules={{ required: true }}
-                render={({ field }) => (
-                  <FormControl component="fieldset" fullWidth>
-                    <FormLabel component="legend">Gender</FormLabel>
-                    <RadioGroup
-                      aria-label="gender"
-                      name="gender"
-                      value={field.value}
-                      onChange={field.onChange}
-                    >
-                      <Stack direction>
-                        <FormControlLabel
-                          value="Male"
-                          control={<Radio />}
-                          label="Male"
-                        />
-                        <FormControlLabel
-                          value="Female"
-                          control={<Radio />}
-                          label="Female"
-                        />
-                      </Stack>
-                    </RadioGroup>
-                    {errors.gender && (
-                      <FormHelperText error>
-                        Gender selection is required
-                      </FormHelperText>
-                    )}
-                  </FormControl>
-                )}
-              />
-            </Grid>
+              <Grid item sm={12} md={5} lg={6}>
+                <Controller
+                  name="dob"
+                  control={control}
+                  // rules={{ required: true }}
+                  render={({ field }) => (
+                    <TextField
+                      id="dateOfBirth"
+                      label="Date of Birth"
+                      type="date"
+                      variant="outlined"
+                      fullWidth
+                      InputLabelProps={{
+                        shrink: true,
+                      }}
+                      error={!!errors.dob}
+                      helperText={errors.dob && "Date of birth is required"}
+                      {...field}
+                    />
+                  )}
+                />
+              </Grid>
+              <Grid item sm={12} md={5} lg={6}>
+                <Controller
+                  name="gender"
+                  control={control}
+                  // rules={{ required: true }}
+                  render={({ field }) => (
+                    <FormControl component="fieldset" fullWidth>
+                      <FormLabel component="legend">Gender</FormLabel>
+                      <RadioGroup
+                        aria-label="gender"
+                        name="gender"
+                        value={field.value}
+                        onChange={field.onChange}
+                      >
+                        <Stack direction>
+                          <FormControlLabel
+                            value="Male"
+                            control={<Radio />}
+                            label="Male"
+                          />
+                          <FormControlLabel
+                            value="Female"
+                            control={<Radio />}
+                            label="Female"
+                          />
+                        </Stack>
+                      </RadioGroup>
+                      {errors.gender && (
+                        <FormHelperText error>
+                          Gender selection is required
+                        </FormHelperText>
+                      )}
+                    </FormControl>
+                  )}
+                />
+              </Grid>
 
-            <Grid item sm={12} md={5} lg={6}>
-              <Controller
-                name="registrationId"
-                control={control}
-                rules={{ required: true }}
-                render={({ field }) => (
-                  <TextField
-                    id="registrationId"
-                    label="Registration ID"
-                    variant="outlined"
-                    fullWidth
-                    error={!!errors.registrationId}
-                    helperText={
-                      errors.registrationId && "Registration ID is required"
-                    }
-                    {...field}
-                  />
-                )}
-              />
-            </Grid>
-            {/* <Grid item sm={12} md={5} lg={6}>
+              <Grid item sm={12} md={5} lg={6}>
+                <Controller
+                  name="registrationId"
+                  control={control}
+                  // rules={{ required: true }}
+                  render={({ field }) => (
+                    <TextField
+                      id="registrationId"
+                      label="Registration ID"
+                      variant="outlined"
+                      fullWidth
+                      error={!!errors.registrationId}
+                      helperText={
+                        errors.registrationId && "Registration ID is required"
+                      }
+                      {...field}
+                    />
+                  )}
+                />
+              </Grid>
+              {/* <Grid item sm={12} md={5} lg={6}>
               <Controller
                 name="gender"
                 control={control}
@@ -245,104 +250,105 @@ function PersonalInfoForm({ next }: any) {
               />
             </Grid> */}
 
-            <Grid item sm={12} md={5} lg={6}>
-              <Controller
-                name="phone"
-                control={control}
-                rules={{ required: true }}
-                render={({ field }) => (
-                  <TextField
-                    id="phone"
-                    label="Phone Number"
-                    variant="outlined"
-                    disabled
-                    fullWidth
-                    error={!!errors.email}
-                    helperText={
-                      errors.firstName && "Registration ID is required"
-                    }
-                    {...field}
-                  />
-                )}
-              />
+              <Grid item sm={12} md={5} lg={6}>
+                <Controller
+                  name="phone"
+                  control={control}
+                  // rules={{ required: true }}
+                  render={({ field }) => (
+                    <TextField
+                      id="phone"
+                      label="Phone Number"
+                      variant="outlined"
+                      disabled
+                      fullWidth
+                      error={!!errors.email}
+                      helperText={
+                        errors.firstName && "Registration ID is required"
+                      }
+                      {...field}
+                    />
+                  )}
+                />
+              </Grid>
+              <Grid item sm={12} md={5} lg={6}>
+                <Controller
+                  name="email"
+                  control={control}
+                  // rules={{ required: true }}
+                  render={({ field }) => (
+                    <TextField
+                      id="email"
+                      label="Email Address"
+                      variant="outlined"
+                      fullWidth
+                      error={!!errors.email}
+                      helperText={
+                        errors.firstName && "Registration ID is required"
+                      }
+                      {...field}
+                    />
+                  )}
+                />
+              </Grid>
+              <Grid item sm={12} md={5} lg={6}>
+                <Controller
+                  name="address"
+                  control={control}
+                  // rules={{ required: true }}
+                  render={({ field }) => (
+                    <TextField
+                      id="address"
+                      label="Address"
+                      variant="outlined"
+                      fullWidth
+                      error={!!errors.address}
+                      helperText={errors.address && "Address is required"}
+                      {...field}
+                    />
+                  )}
+                />
+              </Grid>
+              <Grid item sm={12} md={5} lg={6}>
+                <Controller
+                  name="city"
+                  control={control}
+                  // rules={{ required: true }}
+                  render={({ field }) => (
+                    <TextField
+                      id="city"
+                      label="City"
+                      variant="outlined"
+                      fullWidth
+                      error={!!errors.city}
+                      helperText={errors.city && "City is required"}
+                      {...field}
+                    />
+                  )}
+                />
+              </Grid>
+              <Grid item sm={12} md={5} lg={6}>
+                <Controller
+                  name="pin"
+                  control={control}
+                  // rules={{ required: true }}
+                  render={({ field }) => (
+                    <TextField
+                      id="pin"
+                      label="Pincode"
+                      variant="outlined"
+                      fullWidth
+                      error={!!errors.pin}
+                      helperText={errors.pin && "Pincode is required"}
+                      {...field}
+                    />
+                  )}
+                />
+              </Grid>
             </Grid>
-            <Grid item sm={12} md={5} lg={6}>
-              <Controller
-                name="email"
-                control={control}
-                rules={{ required: true }}
-                render={({ field }) => (
-                  <TextField
-                    id="email"
-                    label="Email Address"
-                    variant="outlined"
-                    fullWidth
-                    error={!!errors.email}
-                    helperText={
-                      errors.firstName && "Registration ID is required"
-                    }
-                    {...field}
-                  />
-                )}
-              />
-            </Grid>
-            <Grid item sm={12} md={5} lg={6}>
-              <Controller
-                name="address"
-                control={control}
-                rules={{ required: true }}
-                render={({ field }) => (
-                  <TextField
-                    id="address"
-                    label="Address"
-                    variant="outlined"
-                    fullWidth
-                    error={!!errors.address}
-                    helperText={errors.address && "Address is required"}
-                    {...field}
-                  />
-                )}
-              />
-            </Grid>
-            <Grid item sm={12} md={5} lg={6}>
-              <Controller
-                name="city"
-                control={control}
-                rules={{ required: true }}
-                render={({ field }) => (
-                  <TextField
-                    id="city"
-                    label="City"
-                    variant="outlined"
-                    fullWidth
-                    error={!!errors.city}
-                    helperText={errors.city && "City is required"}
-                    {...field}
-                  />
-                )}
-              />
-            </Grid>
-            <Grid item sm={12} md={5} lg={6}>
-              <Controller
-                name="pin"
-                control={control}
-                rules={{ required: true }}
-                render={({ field }) => (
-                  <TextField
-                    id="pin"
-                    label="Pincode"
-                    variant="outlined"
-                    fullWidth
-                    error={!!errors.pin}
-                    helperText={errors.pin && "Pincode is required"}
-                    {...field}
-                  />
-                )}
-              />
-            </Grid>
-          </Grid>
-        </fieldset>
-      </FormControl>
+          </fieldset>
+        </FormControl>
+      </fieldset>
     </form>
   );
 }

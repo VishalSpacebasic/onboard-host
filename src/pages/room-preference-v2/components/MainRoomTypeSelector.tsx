@@ -86,13 +86,13 @@ function MainRoomTypeSelector({
                   <Typography fontWeight={"600"} style={{ fontSize: 13 }}>
                     {room?.roomTypeName}
                   </Typography>
-                  <Divider />
+                  {/* <Divider />
                   <Typography>
                     <Typography variant="h2" style={{ fontSize: 12 }}>
                       Starts At
                     </Typography>
                     {room?.basePrice}
-                  </Typography>
+                  </Typography> */}
                 </Stack>
               }
             />

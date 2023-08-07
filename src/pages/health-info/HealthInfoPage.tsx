@@ -9,16 +9,17 @@ type Props = { next };
 function HealthInfoPage({ next }: Props) {
   const [alergiers, setAllergies] = useState([""]);
   const [medConditions, setmedConditions] = useState([""]);
+  const handleNextClicked = () => {
+    next();
+  };
   useEffect(() => {
     emitter.on("next-clicked", handleNextClicked);
     return () => {
       console.log("unMounted");
       emitter.off("next-clicked", handleNextClicked);
     };
-  }, []);
-  const handleNextClicked = () => {
-    next();
-  };
+  }, [alergiers, handleNextClicked, medConditions]);
+
   return (
     <Container maxWidth="lg">
       <Typography mt={4} variant="h5">

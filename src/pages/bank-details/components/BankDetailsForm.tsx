@@ -23,6 +23,12 @@ function BankDetailsForm({ next }) {
       ifsc: "",
     },
   });
+  const handleNextClicked = () => {
+    console.log("Iam clicked from personalInfoForm");
+
+    handleSubmit(handleFormSubmit)();
+    
+  };
   useEffect(() => {
     getBankDetails().then(({ result }) => {
       Object.keys(result).forEach((fieldName) => {
@@ -45,13 +51,8 @@ function BankDetailsForm({ next }) {
       console.log("unMounted");
       emitter.off("next-clicked", handleNextClicked);
     };
-  }, []);
-  const handleNextClicked = () => {
-    console.log("Iam clicked from personalInfoForm");
+  }, [handleNextClicked]);
 
-    handleSubmit(handleFormSubmit)();
-    
-  };
   return (
     <form autoComplete="off" onSubmit={handleSubmit(handleFormSubmit)}>
       <FormControl>

@@ -19,7 +19,7 @@ function RoomSelectionDisplay({
   }
   return (
     <Container maxWidth="lg">
-      {/* {JSON.stringify(selectedRoom)} */}
+      {/* {JSON.stringify(selectedRoom?.id)} */}
       {selectedRoom ? (
         <Paper sx={{ padding: 3 }}>
           {/* {JSON.stringify(selectedRoom)} */}
@@ -86,7 +86,7 @@ function RoomSelectionDisplay({
                 </Typography>
               </Box>
             </Stack>
-            {!hidePrice ? (
+            {/* {!hidePrice ? (
               <>
                 {" "}
                 <Typography variant="body1" gutterBottom>
@@ -96,7 +96,7 @@ function RoomSelectionDisplay({
                   {selectedRoom?.price} INR
                 </Typography>
               </>
-            ) : null}
+            ) : null} */}
           </Box>
           <Stack>
             <Button

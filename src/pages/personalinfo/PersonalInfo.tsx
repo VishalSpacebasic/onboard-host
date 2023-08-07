@@ -16,6 +16,7 @@ function PersonalInfo({ next }: PersonalInfoProps): JSX.Element {
 
   return (
     <Container maxWidth="lg">
+        <Typography variant="body1" color="GrayText">*The above information is prefilled. Should there be any changes, please connect with Hostel administration once you reach our campus.</Typography>
       <Slide direction="left" in={mounted} mountOnEnter unmountOnExit>
         <Paper
           elevation={3}
@@ -25,7 +26,8 @@ function PersonalInfo({ next }: PersonalInfoProps): JSX.Element {
         >
           <Typography variant="h5">Please fill the details</Typography>
           <Divider />
-          <Box mt={10}>
+        
+          <Box mt={6}>
             <PersonalInfoForm next={next} />
           </Box>
         </Paper>
