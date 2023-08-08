@@ -126,7 +126,7 @@ function LoginByAppId() {
                 render={({ field }) => (
                   <TextField
                     {...field}
-                    label="Registration Number "
+                    label="Registration number "
                     variant="outlined"
                     fullWidth
                     disabled={otpSent}
