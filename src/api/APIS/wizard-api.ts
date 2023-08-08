@@ -1,7 +1,7 @@
 import axiosInstance from "../axios.instance";
 
 const collegeId = sessionStorage.getItem("collegeId");
-const v3Url = `/api/v3/onboarding/forms/${collegeId}`;
+const v3Url = `/api/v3/onboarding/forms/133`;
 
 export const setPersonalInfo = (data: any) => {
   return axiosInstance.post(`${v3Url}/personalDetails`, { ...data });
