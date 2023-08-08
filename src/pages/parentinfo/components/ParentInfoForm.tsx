@@ -35,9 +35,9 @@ function ParentInfoForm({ next }: Props) {
     },
   });
   function onSubmit(data: any) {
+    next();
     console.log(data);
     setParentInfo(data);
-    next();
   }
   const handleNextClicked = () => {
     console.log("Iam clicked from personalInfoForm");

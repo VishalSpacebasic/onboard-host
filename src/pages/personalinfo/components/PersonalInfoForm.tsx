@@ -47,13 +47,13 @@ function PersonalInfoForm({ next }: any) {
     },
   });
   const onSubmit = (data: any) => {
-    setPersonalInfo(data)
-      .then(({ data }) => {
+    // setPersonalInfo(data)
+    //   .then(({ data }) => {
         next();
-      })
-      .catch(() => {
-        toast("Something went wrong");
-      });
+      // })
+      // .catch(() => {
+      //   toast("Something went wrong");
+      // });
     console.log(data);
   };
   const handleNextClicked = () => {
